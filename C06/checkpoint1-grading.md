@@ -11,6 +11,10 @@
   · **WEAK** (accepted for now; a stronger site or wording exists) · **RELABEL/MISLABEL**
   (right evidence, wrong code) · **note** (code quality) · **opportunity** (unlabelled
   work that would earn codes honestly).
+- **A `✓` at the end of a label line means that label is confirmed as it stands.**
+  Every claimed label is marked one way or the other: ✓ = confirmed, an adjacent
+  `FB[...]` = disputed. (Unmarked C7 codes are outside this checkpoint's scope,
+  not rejected.)
 - Line numbers below refer to `main` as you submitted it.
 
 ## What is being graded — read this part properly

@@ -7,21 +7,21 @@ extends Control
 # ============================================================================
 # CIRCULAR MOTION SIMULATOR
 # ----------------------------------------------------------------------------
-# FUNCTIONALITY (C742a): This script drives an interactive simulation of a
+# FUNCTIONALITY (C742a): This script drives an interactive simulation of a  ✓
 # ball moving in a horizontal circle on a string (centripetal motion). The
 # user adjusts mass, radius and velocity with sliders; the script recalculates
 # the centripetal force (F = m*v^2/r) in real time, animates the ball's
 # position each frame, and lets the user save/load their slider settings to
 # a CSV file so a session can be resumed later.
 #
-# USE OF DATA (C743a): Three continuous physical quantities (mass, radius,
+# USE OF DATA (C743a): Three continuous physical quantities (mass, radius,  ✓
 # velocity) are read from GUI sliders as floats, combined with the physics
 # formula, and pushed back out to Label nodes as formatted strings. The same
 # three values (plus the simulation's time_scale) are the only data written
 # to / read from disk, using CSV because it is small, human-readable, and can
-# be opened outside Godot for marking/checking (C645a).
+# be opened outside Godot for marking/checking (C645a).  ✓
 #
-# USE OF CODE STRUCTURES (C744a): Logic is grouped into clearly named regions:
+# USE OF CODE STRUCTURES (C744a): Logic is grouped into clearly named regions:  ✓
 #   - Setup (_ready)                : one-time wiring of signals/dialogs
 #   - Physics update (_process)     : per-frame motion + string drawing
 #   - Recalculation helpers         : _update_force_label, _update_all_labels
@@ -34,7 +34,7 @@ extends Control
 # ============================================================================
 
 # --- Interface controls (GUI) -----------------------------------------------
-# C627a and C633a - GUI control references. Naming convention (C751a): every GUI
+# C627a and C633a - GUI control references. Naming convention (C751a): every GUI  ✓
 # control variable is named <purpose>_<control type> (e.g. radius_slider,
 # radius_label) so its role and node type are both obvious at a glance.
 @onready var radius_slider: HSlider = $layout/options/radiusSlider
@@ -61,10 +61,10 @@ extends Control
 @onready var string_line: Line2D = $Line2D
 
 # --- Constants ---------------------------------------------------------
-const RADIUS_SCALE := 20.0   # C622a - pixels per slider unit, so the ball's
+const RADIUS_SCALE := 20.0   # C622a - pixels per slider unit, so the ball's  ✓
 							  # on-screen radius matches the slider intuitively
 
-# Acceptable ranges for validation (C735a/C745a). Kept as constants rather than
+# Acceptable ranges for validation (C735a/C745a). Kept as constants rather than  ✓
 # magic numbers so the "why" is documented once and reused everywhere.
 const MASS_MIN := 0.0
 const MASS_MAX := 20.0
@@ -75,23 +75,23 @@ const VELOCITY_MAX := 60.0
 
 # --- Physics state -------------------------------------------------------
 # why float: angle/angular_velocity are continuous, not whole-number counts
-var _angle: float = 0.0                 # C643a - "_" prefix denotes private/internal use
+var _angle: float = 0.0                 # C643a - "_" prefix denotes private/internal use  ✓
 var _angular_velocity: float = 0.0
 # why float: distance and mass can be fractional (e.g. 152.5g or 153.6 px)
-var radius: float = 100.0               # C614a - numeric data type
+var radius: float = 100.0               # C614a - numeric data type  ✓
 var mass: float = 1.0                   # C631a - global variable
 # FB[C631a] WEAK - `mass` is a script member: global to this scene, not to the
 #   program. The clean C631 claim is Global.gd (dark_mode etc.). Either relabel
 #   there, or expand this why to defend script-scope as your 'global'.
 
-var tween_toggle: bool = true           # C615a - boolean data type, why: tracks
+var tween_toggle: bool = true           # C615a - boolean data type, why: tracks  ✓
 										  # whether the options panel is currently
 										  # shown or hidden so show/hide can't
 										  # be triggered twice in a row
 
 
 func _ready() -> void:
-	# C641a - function. Sequence (C625a): dialogs, then slider signals, then
+	# C641a - function. Sequence (C625a): dialogs, then slider signals, then  ✓
 	# an initial label refresh, so every control is fully configured before
 	# anything reads its value.
 	_setup_file_dialogs()
@@ -107,11 +107,11 @@ func _ready() -> void:
 
 func _setup_file_dialogs() -> void:
 	# why: isolates FileDialog configuration from _ready() so _ready() stays
-	# readable as a short list of setup steps (C744a - code structure)
+	# readable as a short list of setup steps (C744a - code structure)  ✓
 	save_dialog.file_mode = FileDialog.FILE_MODE_SAVE_FILE
 	save_dialog.access = FileDialog.ACCESS_FILESYSTEM
 	save_dialog.add_filter("*.csv", "CSV Files")
-	save_dialog.file_selected.connect(_on_save_file_selected)   # C642a - method call
+	save_dialog.file_selected.connect(_on_save_file_selected)   # C642a - method call  ✓
 
 	import_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
 	import_dialog.access = FileDialog.ACCESS_FILESYSTEM
@@ -135,22 +135,22 @@ func _update_all_labels() -> void:
 func _update_force_label() -> void:
 	# why local vars: values are read once per call rather than looked up
 	# repeatedly from the sliders, which is both faster and clearer to read
-	var linear_velocity: float = velocity_slider.value   # C621a - local var, C628a typed
+	var linear_velocity: float = velocity_slider.value   # C621a - local var, C628a typed  ✓
 	var current_radius: float = radius_slider.value
 	var current_mass: float = max(mass_slider.value, 0.0)
 
 	# Centripetal Force: F = (m * v^2) / r
-	# Guarded by radius > 0 (C624a comparison, C626a selection) because
+	# Guarded by radius > 0 (C624a comparison, C626a selection) because  ✓
 	# division by zero is undefined and would crash the simulation
 	if current_radius > 0:
 		var force: float = (current_mass * linear_velocity * linear_velocity) / current_radius
-		# C612a - arithmetic operators (*, /)
+		# C612a - arithmetic operators (*, /)  ✓
 		force_label.text = "= %.2f N" % snapped(force, 0.01)
 	else:
 		force_label.text = "= 0.00 N"
 
 	formula_label.text = "F = (%.2f * (%.2f)² ) / %.2f" % [current_mass, linear_velocity, current_radius]
-	# C613a - string data type (format string)
+	# C613a - string data type (format string)  ✓
 	# C635a - array (the [current_mass, linear_velocity, current_radius] literal)
 # FB[C635a] WEAK - an array literal inside a format call is incidental use.
 #   Your strongest array work is _reset_sliders_to_defaults (two parallel
@@ -171,7 +171,7 @@ func _process(delta: float) -> void:
 	var old_angle: float = _angle
 
 	# Update the ball's angle using angular velocity; freeze motion at
-	# zero mass instead of letting the angle keep advancing (C626a selection)
+	# zero mass instead of letting the angle keep advancing (C626a selection)  ✓
 	_angle += _angular_velocity * delta
 	if current_mass == 0:
 		_angle = old_angle
@@ -187,7 +187,7 @@ func _process(delta: float) -> void:
 
 
 # =============================================================================
-# INPUT VALIDATION HELPERS (C735a / C745a)
+# INPUT VALIDATION HELPERS (C735a / C745a)  ✓
 # why: every value that can come from free-text user input (the label
 # text_submitted callbacks) or from an external CSV file needs to be checked
 # for existence, type and range before it is trusted - unlike slider input,
@@ -212,7 +212,7 @@ func _clamp_to_range(value: float, min_value: float, max_value: float) -> float:
 
 func _try_parse_validated_float(text: String, min_value: float, max_value: float, fallback: float) -> float:
 	# Combines existence + type + range checks in one reusable helper so
-	# each text_submitted callback stays short and consistent (C744a)
+	# each text_submitted callback stays short and consistent (C744a)  ✓
 	if not _is_valid_float_string(text):
 		push_warning("Invalid numeric input '%s' - keeping previous value" % text)
 		return fallback
@@ -226,7 +226,7 @@ func _on_radius_changed(new_value: float) -> void:
 	var new_radius: float = new_value * RADIUS_SCALE
 
 	if new_radius > 0 and radius > 0:
-		# C623a - logical operator (and)
+		# C623a - logical operator (and)  ✓
 		var current_linear_velocity: float = velocity_slider.value * 30.0
 		_angular_velocity = current_linear_velocity / new_radius
 
@@ -242,7 +242,7 @@ func _on_mass_changed(new_value: float) -> void:
 
 func _on_velocity_changed(new_value: float) -> void:
 	velocity_label.text = "%s" % new_value
-	var linear_velocity: float = new_value * 30.0   # C628a - typed local var
+	var linear_velocity: float = new_value * 30.0   # C628a - typed local var  ✓
 
 	if radius > 0:
 		_angular_velocity = linear_velocity / radius
@@ -258,7 +258,7 @@ func _on_import_file_selected(path: String) -> void:
 
 
 # =============================================================================
-# FILE I/O (C644a / C645a - data source: CSV on disk, chosen for readability)
+# FILE I/O (C644a / C645a - data source: CSV on disk, chosen for readability)  ✓
 # =============================================================================
 
 func save_to_csv(path: String) -> void:
@@ -333,7 +333,7 @@ func _reset_sliders_to_defaults() -> void:
 	var sliders: Array = [mass_slider, velocity_slider, radius_slider]
 	var defaults: Array = [2, 3, 3]
 
-	for i in range(sliders.size()):   # C632a - iteration over an array
+	for i in range(sliders.size()):   # C632a - iteration over an array  ✓
 		sliders[i].value = defaults[i]
 
 
@@ -419,7 +419,7 @@ func _on_import_button_up() -> void:
 # LABEL TEXT-SUBMITTED CALLBACKS
 # why: these are the only places a user can type arbitrary free text, so
 # they are the only places that need the full existence/type/range check
-# (C735a / C745a) rather than relying on the slider's built-in clamping.
+# (C735a / C745a) rather than relying on the slider's built-in clamping.  ✓
 # =============================================================================
 
 func _on_radius_label_text_submitted(new_text: String) -> void:

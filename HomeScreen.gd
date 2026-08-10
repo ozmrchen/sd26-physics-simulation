@@ -19,11 +19,11 @@ extends Control
 #   which is exactly what C638 (5-6 band) rewards. C658 (9-10) requires
 #   explaining types AND structures AND sources across the feature.
 const SIMULATIONS: Dictionary = {
-	# C636b - Dictionary/record: groups related fields (title, description,
+	# C636b - Dictionary/record: groups related fields (title, description,  ✓
 	# formula, scene) under one key instead of using five parallel arrays
 	"circular_motion": {
 		"title":       "Circular Motion",
-		# C613b - Text/String data type
+		# C613b - Text/String data type  ✓
 		"description": "An object moving in a circle experiences a centripetal force directed toward the centre. Adjust mass, velocity, and radius to see how each variable affects the net force required to maintain circular motion.",
 		"formula":     "F = mv² / r",
 		"scene":       "res://CircularMotion.tscn"
@@ -54,7 +54,7 @@ const SIMULATIONS: Dictionary = {
 	}, 
 }
 
-# C629b - why: String is used (not an int/enum id) because the value is used
+# C629b - why: String is used (not an int/enum id) because the value is used  ✓
 # directly as a Dictionary key to look up the matching SIMULATIONS entry
 # C713b - Identifies input needing validation: current_simulation is set from
 # user selection and must be checked against SIMULATIONS before use (see
@@ -64,7 +64,7 @@ var current_simulation: String = ""
 # FB[C631b] WEAK - same as C631a: script member, not a program-wide global.
 
 const HOME = preload("res://HomeScreen.tscn")
-# C622b - Constants (preloaded scene references that never change at runtime)
+# C622b - Constants (preloaded scene references that never change at runtime)  ✓
 const SETTINGS = preload("res://Settings.tscn")
 
 # ── Node references ────────────────────────────────────────────────────────
@@ -72,16 +72,16 @@ const SETTINGS = preload("res://Settings.tscn")
 # C634b - Global variable with explicit/appropriate data type (Label)
 # FB[C634b] REJECTED - node references are not global variables (see C634a note).
 @onready var description_label: Label = $ReferenceRect4/Description
-# C627b - Graphical user interface (GUI) element reference
+# C627b - Graphical user interface (GUI) element reference  ✓
 @onready var formula_label    : Label = $ReferenceRect4/Panel2/Formula
 # C731b - Naming convention applied to an interface control: "formula_label"
 # clearly names both what it displays (formula) and what kind of node it is
 @onready var start_button: Panel = $ReferenceRect4/Button
-# C633b - Relevant GUI control (the clickable "start" panel/button)
+# C633b - Relevant GUI control (the clickable "start" panel/button)  ✓
 
 # ── Setup ──────────────────────────────────────────────────────────────────
 func _ready() -> void:
-	# C641b - Function
+	# C641b - Function  ✓
 	# C742b - Explains functionality: on load, this connects every category
 	# tab and every simulation card to their handler functions, then selects
 	# the first tab and first card so the menu never opens on an empty state
@@ -96,10 +96,10 @@ func _ready() -> void:
 		$CanvasLayer.visible = true
 	
 	$ReferenceRect4/Button.gui_input.connect(_on_start_gui_input)
-	# C642b - Method call (connect)
+	# C642b - Method call (connect)  ✓
 	# Connect category tab signals
 	for node in get_tree().get_nodes_in_group("category_tabs"):
-		# C632b - Iteration/repetition (for loop)
+		# C632b - Iteration/repetition (for loop)  ✓
 		node.panel_selected.connect(_on_category_selected)
 
 	# Connect sim card signals
@@ -108,11 +108,11 @@ func _ready() -> void:
 
 	# Set defaults
 	var tabs  = get_tree().get_nodes_in_group("category_tabs")
-	# C621b - Local variable
+	# C621b - Local variable  ✓
 	# C721b - Naming convention applied to a variable: "tabs" is short but
 	# still clearly describes the group of nodes it holds
 	var cards = get_tree().get_nodes_in_group("sim_cards")
-	# C635b - Array (get_nodes_in_group returns a Godot Array)
+	# C635b - Array (get_nodes_in_group returns a Godot Array)  ✓
 	
 
 	if tabs.size()  > 0: tabs[0].select()
@@ -122,7 +122,7 @@ func _ready() -> void:
 	# C735b - Two validation checks combined: this file demonstrates both a
 	# range check (tabs.size() > 0 / cards.size() > 0, here) and an
 	# existence check (simulation not in SIMULATIONS, in change_summary())
-	# C626b - Selection (if statement)
+	# C626b - Selection (if statement)  ✓
 # FB[C725b/C735b] CATEGORY ERROR (C7-3) - size checks on internal node groups
 #   guard program state; they do not validate INPUT data. Your honest C7-3
 #   evidence is in circular_motion.gd: the free-text boxes and the CSV load.
@@ -133,7 +133,7 @@ func _on_category_selected(id: String) -> void:
 
 
 func _on_simulation_selected(id: String) -> void:
-	# C628b - Local variable/parameter with explicit data type (id: String)
+	# C628b - Local variable/parameter with explicit data type (id: String)  ✓
 	change_summary(id)
 
 func _on_start_gui_input(event: InputEvent) -> void:
@@ -142,21 +142,21 @@ func _on_start_gui_input(event: InputEvent) -> void:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 # FB[C724b] WEAK (C7-3) - `is InputEventMouseButton` is event dispatch, not
 #   input-data validation. Same note as above: point C7-3 claims at real input.
-			# C623b - Logical operator (and)
+			# C623b - Logical operator (and)  ✓
 			_on_start_pressed()
 
 func _on_start_pressed() -> void:
 	# C643b - Access modifier convention: leading underscore marks this as an
 	# internal/private-style function, since it's only meant to be triggered
 	# by the connected gui_input signal, not called from outside this script
-	# C645b - why: SIMULATIONS (an in-memory constant) is used as the data
+	# C645b - why: SIMULATIONS (an in-memory constant) is used as the data  ✓
 	# source here instead of reading a file, since this menu data is fixed
 	# ahead of time and doesn't need to be edited by the end user
 	# C732b - Describes functionality: looks up the currently selected
 	# simulation's data, bails out with a message if nothing was picked, then
 	# transitions the whole scene to that simulation's dedicated .tscn file
 	var data = SIMULATIONS.get(current_simulation, null)
-	# C644b - Appropriate data structure/source: retrieving a record from the
+	# C644b - Appropriate data structure/source: retrieving a record from the  ✓
 	# Dictionary instead of searching an Array by index
 	if data == null:
 		print("No simulation selected")
@@ -165,7 +165,7 @@ func _on_start_pressed() -> void:
 
 # ── change_options — called when a category tab is clicked ─────────────────
 # TODO: filter simulation list by category
-# C734b - Evidence of code maintenance: TODO comment tracks known unfinished
+# C734b - Evidence of code maintenance: TODO comment tracks known unfinished  ✓
 # work (category filtering) so it isn't lost or forgotten
 func change_options(category: String) -> void:
 	# C741b - Naming convention applied to a code structure: function name

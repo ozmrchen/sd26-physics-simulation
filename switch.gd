@@ -5,7 +5,7 @@ extends Button
 # the call site ($Control4.on() / $Control4.off()) than a boolean flag would
 # FB[C658c] REJECTED - a method-splitting rationale explains CODE STRUCTURE,
 #   which is C744 (you claim it correctly just below). C658 is about data.
-# C744c - Explains code structures: the toggle STATE lives in Settings.gd
+# C744c - Explains code structures: the toggle STATE lives in Settings.gd  ✓
 # (Global.dark_mode, cooldown) while the toggle ANIMATION lives here in the
 # button's own script — keeping "what the setting is" separate from "how it
 # looks when it changes" so either half can be edited without touching the other
@@ -16,7 +16,7 @@ extends Button
 # FB[C638c] WEAK - caching a theme lookup is a performance why, not a data-
 #   structure why. Strengthen toward why a variable HOLDS this object, or relabel.
 var current_style = self.get_theme_stylebox("Panel")
-# C721c - Naming convention applied to a variable: "current_style" clearly
+# C721c - Naming convention applied to a variable: "current_style" clearly  ✓
 # names both what it holds and that it reflects the active/current theme
 
 # Called when the node enters the scene tree for the first time.
@@ -26,10 +26,10 @@ func _ready():
 func _process(_delta):
 	pass
 func on():
-	# C741c - Naming convention applied to a code structure: "on"/"off" are
+	# C741c - Naming convention applied to a code structure: "on"/"off" are  ✓
 	# short but immediately readable given this is a toggle-button script
 	var tween = create_tween().set_parallel(true)
-	# C621c - Local variable
+	# C621c - Local variable  ✓
 	$Panel.visible = true
 	# C731c - Naming convention applied to an interface control: "$Panel" /
 	# "$Panel2" / "$Sprite2D" / "$Sprite2D2" names describe exactly which
@@ -44,7 +44,7 @@ func on():
 		.set_trans(Tween.TRANS_CUBIC)\
 		.set_ease(Tween.EASE_OUT)
 func off():
-	# C743c - Explains use of data: on() and off() both write literal target
+	# C743c - Explains use of data: on() and off() both write literal target  ✓
 	# positions/visibility flags rather than reading them from data, because
 	# there are only ever two fixed visual states for this toggle — storing
 	# them as data instead of two short functions would add complexity
