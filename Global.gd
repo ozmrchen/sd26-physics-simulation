@@ -1,4 +1,7 @@
 extends Node
+# FB[opportunity] These five vars are this project's only TRUE globals - and they
+#   are unlabelled and untyped. Add types (e.g. `var dark_mode: bool = true`),
+#   then claim C631 and C634 here with a why. This is your cleanest missing win.
 
 #Setting defaults
 var default_speed = 1

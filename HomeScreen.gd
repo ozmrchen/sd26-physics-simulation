@@ -1,5 +1,6 @@
 extends Control
 # C656b - Inheritance: this script extends the built-in Control class
+# FB[C656b] REJECTED - same as C656a: engine-imposed inheritance is not yours to claim.
 
 # C712b - Identifies functioning: this script controls the simulation
 # selection menu — user picks a category tab, picks a simulation card,
@@ -14,6 +15,9 @@ extends Control
 # for this whole file because every simulation needs the same fields
 # (title/description/formula/scene), so one consistent structure can drive
 # the UI instead of five sets of separate variables
+# FB[C658b] RELABEL to C638b - this is a good why for ONE structure choice,
+#   which is exactly what C638 (5-6 band) rewards. C658 (9-10) requires
+#   explaining types AND structures AND sources across the feature.
 const SIMULATIONS: Dictionary = {
 	# C636b - Dictionary/record: groups related fields (title, description,
 	# formula, scene) under one key instead of using five parallel arrays
@@ -57,6 +61,7 @@ const SIMULATIONS: Dictionary = {
 # change_summary() and _on_start_pressed() below)
 var current_simulation: String = ""
 # C631b - Global variable
+# FB[C631b] WEAK - same as C631a: script member, not a program-wide global.
 
 const HOME = preload("res://HomeScreen.tscn")
 # C622b - Constants (preloaded scene references that never change at runtime)
@@ -65,6 +70,7 @@ const SETTINGS = preload("res://Settings.tscn")
 # ── Node references ────────────────────────────────────────────────────────
 @onready var title_label      : Label = $ReferenceRect4/Title
 # C634b - Global variable with explicit/appropriate data type (Label)
+# FB[C634b] REJECTED - node references are not global variables (see C634a note).
 @onready var description_label: Label = $ReferenceRect4/Description
 # C627b - Graphical user interface (GUI) element reference
 @onready var formula_label    : Label = $ReferenceRect4/Panel2/Formula
@@ -83,6 +89,9 @@ func _ready() -> void:
 	if Global.dark_mode == true:
 		# C615b - Boolean data type (the literal "true")
 		pass
+# FB[C615b] WEAK - a bare literal `true` in a comparison is the thinnest possible
+#   Boolean evidence. You already have C615a on a purposeful state flag; one
+#   strong site per code beats two thin ones.
 	else:
 		$CanvasLayer.visible = true
 	
@@ -114,6 +123,9 @@ func _ready() -> void:
 	# range check (tabs.size() > 0 / cards.size() > 0, here) and an
 	# existence check (simulation not in SIMULATIONS, in change_summary())
 	# C626b - Selection (if statement)
+# FB[C725b/C735b] CATEGORY ERROR (C7-3) - size checks on internal node groups
+#   guard program state; they do not validate INPUT data. Your honest C7-3
+#   evidence is in circular_motion.gd: the free-text boxes and the CSV load.
 
 # ── Handlers ───────────────────────────────────────────────────────────────
 func _on_category_selected(id: String) -> void:
@@ -128,6 +140,8 @@ func _on_start_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		# C724b - Type checking ("is InputEventMouseButton")
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+# FB[C724b] WEAK (C7-3) - `is InputEventMouseButton` is event dispatch, not
+#   input-data validation. Same note as above: point C7-3 claims at real input.
 			# C623b - Logical operator (and)
 			_on_start_pressed()
 

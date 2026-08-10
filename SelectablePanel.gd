@@ -1,4 +1,12 @@
 extends Panel
+# FB[opportunity] This file is the only genuine OOP in the project and it is
+#   completely unlabelled: a reusable component class (C651), StyleBoxFlat.new()
+#   object creation (C652), private _style/_apply_style behind a public
+#   select()/deselect() interface (C654), one class generalised over category
+#   tabs AND simulation cards via exported config (C655), and a signal that
+#   abstracts 'chosen' away from mouse detail (C653). Label it with written
+#   whys and the 9-10 OOP band stops being empty. This is where C656 could
+#   become honest too: design a base class relationship you can defend.
 
 # ── Customise these per-node in the Inspector ──────────────────────────────
 @export var normal_bg           : Color  = Color("#2a2a2a")

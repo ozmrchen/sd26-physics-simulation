@@ -3,6 +3,8 @@ extends Button
 # than one method with a boolean parameter (e.g. set_state(bool)) because
 # each one drives a distinct, named animation — this reads more clearly at
 # the call site ($Control4.on() / $Control4.off()) than a boolean flag would
+# FB[C658c] REJECTED - a method-splitting rationale explains CODE STRUCTURE,
+#   which is C744 (you claim it correctly just below). C658 is about data.
 # C744c - Explains code structures: the toggle STATE lives in Settings.gd
 # (Global.dark_mode, cooldown) while the toggle ANIMATION lives here in the
 # button's own script — keeping "what the setting is" separate from "how it
@@ -11,6 +13,8 @@ extends Button
 # C638c - why: the fetched StyleBox is stored in a variable so the theme
 # lookup only has to run once, instead of calling get_theme_stylebox()
 # again anywhere the style is needed later
+# FB[C638c] WEAK - caching a theme lookup is a performance why, not a data-
+#   structure why. Strengthen toward why a variable HOLDS this object, or relabel.
 var current_style = self.get_theme_stylebox("Panel")
 # C721c - Naming convention applied to a variable: "current_style" clearly
 # names both what it holds and that it reflects the active/current theme
@@ -47,6 +51,8 @@ func off():
 	# without adding flexibility
 	var tween = create_tween().set_parallel(true)
 		# 4. Animate the panel position smoothly over 0.4 secondsColor(0.165, 0.165, 0.165)
+# FB[note] Mangled leftover fragment on the line above ('...0.4 secondsColor(...)') -
+#   remove it. Dead comments are exactly what C734 maintenance evidence is about.
 	$Panel.visible = false
 	$Panel2.visible = true
 	$Sprite2D2.visible = true
