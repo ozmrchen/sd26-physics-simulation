@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://cxth5btsin630"]
+
+[ext_resource type="Texture2D" uid="uid://cib2h625idk16" path="res://icon.svg" id="1_cpeku"]
+[ext_resource type="Script" uid="uid://dh23tubxwal7n" path="res://tempBack.gd" id="2_1q55d"]
+
+[node name="VerticalMotion" type="Node2D" unique_id=156119175]
+
+[node name="Icon" type="Sprite2D" parent="." unique_id=503534415]
+position = Vector2(967, 108)
+texture = ExtResource("1_cpeku")
+
+[node name="Button" type="Button" parent="." unique_id=365554787]
+offset_left = 180.0
+offset_top = 283.0
+offset_right = 393.0
+offset_bottom = 373.0
+text = "Back"
+script = ExtResource("2_1q55d")
+
+[node name="Label" type="Label" parent="." unique_id=323383995]
+offset_left = 359.0
+offset_top = 73.0
+offset_right = 862.0
+offset_bottom = 138.0
+theme_override_font_sizes/font_size = 47
+text = "This is Vertical Motion"

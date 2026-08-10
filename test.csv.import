@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dgl1dje7hk0ng"
+
+[deps]
+
+files=["res://test.velocity.translation", "res://test.radius.translation", "res://test.simulation.translation"]
+
+source_file="res://test.csv"
+dest_files=["res://test.velocity.translation", "res://test.radius.translation", "res://test.simulation.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

@@ -1,0 +1,86 @@
+extends Control
+# C656c - Inheritance: this script extends the built-in Control class
+
+# C712c - Identifies functioning: this script reads/writes the shared
+# Global dark-mode and formula-visibility settings, and toggles the
+# dark-mode button + canvas visibility to match
+# C751c - Naming convention applied consistently across ALL elements in this
+# pair of files: snake_case variables/functions, matching Godot's own style
+# guide throughout, not just in isolated spots
+
+const HOME = preload("res://HomeScreen.tscn")
+# C622c - Constant (preloaded scene reference that never changes at runtime)
+
+# C629c - why: Boolean is used (not e.g. a timer/int) because "cooldown" only
+# ever needs to represent two states — ready or not ready — nothing more
+var cooldown = false
+# C631c - Global variable
+
+func _ready() -> void:
+	# C641c - Function
+	# C722c - Outlines functioning: reads the current dark_mode value, then
+	# sets both the toggle button's visual state and the CanvasLayer's
+	# visibility to match it on scene load
+	print(Global.dark_mode)
+	# C644c - Appropriate data structure/source: Global is an autoload
+	# (singleton) used as the shared data source for cross-scene settings,
+	# instead of each scene keeping its own separate copy of dark_mode
+	# C645c - why: an autoload singleton was chosen over passing values
+	# scene-to-scene because dark_mode/show_formula need to be readable and
+	# writable from many unrelated scenes (menu, settings, simulations)
+	if Global.dark_mode == true:
+		# C615c - Boolean data type (the literal "true")
+		$ReferenceRect4/Control4.on()
+		# C642c - Method call
+	else:
+		$ReferenceRect4/Control4.off()
+		
+	if Global.dark_mode == true:
+		pass
+	else:
+		$CanvasLayer.visible = true
+		# C627c - GUI element (CanvasLayer visibility)
+	# C626c - Selection (if/else)
+
+func _on_settings_2_button_up() -> void:
+	get_tree().change_scene_to_file("res://HomeScreen.tscn")
+	# C613c - Text/String data type (scene path)
+
+func _on_control_2_button_up() -> void:
+	# C733c - Describes use of data: flips the shared Global.show_formula
+	# flag, which other scenes read to decide whether the formula label
+	# should be visible — this script never reads that value itself
+	Global.show_formula = not Global.show_formula
+	# C623c - Logical operator (not)
+
+func _on_control_4_button_up() -> void:
+	# C643c - Access modifier convention: leading underscore marks this as an
+	# internal/private-style function, only meant to be triggered by the
+	# connected button_up signal, not called directly from other scripts
+	# C742c - Explains functionality: this is a debounced toggle — cooldown
+	# blocks repeat presses while the animation is running, then the actual
+	# dark_mode flag is flipped, the button icon and canvas visibility are
+	# updated to match, and cooldown is released again after a fixed delay
+	# so rapid clicking can't fire the animation multiple times at once
+	if cooldown == false:
+		# C624c - Conditional/comparison operator (==)
+		cooldown = true
+		# C625c - Sequence (statements executing one after another in order)
+		Global.dark_mode = not Global.dark_mode
+		# C611c - Instruction
+		if Global.dark_mode == true:
+			$ReferenceRect4/Control4.on()
+		else:
+			$ReferenceRect4/Control4.off()
+		
+		$CanvasLayer.visible = not $CanvasLayer.visible
+		# C633c - Relevant GUI control (toggling visibility of the CanvasLayer)
+		await get_tree().create_timer(0.3).timeout
+		# C614c - Numeric data type (float, 0.3 seconds)
+		# TODO: pull 0.3 out into a named constant so the cooldown and the
+		# tween durations in Control4.gd can't drift out of sync
+		# C734c - Evidence of code maintenance: TODO tracking known
+		# improvement so it isn't lost or forgotten
+		cooldown = false
+	else:
+		pass

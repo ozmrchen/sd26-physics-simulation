@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://cmjpmjni6r7u8"]
+
+[ext_resource type="Texture2D" uid="uid://cib2h625idk16" path="res://icon.svg" id="1_6g18x"]
+[ext_resource type="Script" uid="uid://dh23tubxwal7n" path="res://tempBack.gd" id="2_s8h8q"]
+
+[node name="ConicalMotion" type="Node2D" unique_id=2059239926]
+
+[node name="Icon" type="Sprite2D" parent="." unique_id=1323568130]
+position = Vector2(599, 198)
+texture = ExtResource("1_6g18x")
+
+[node name="Button" type="Button" parent="." unique_id=981710506]
+offset_left = 180.0
+offset_top = 283.0
+offset_right = 393.0
+offset_bottom = 373.0
+text = "Back"
+script = ExtResource("2_s8h8q")
+
+[node name="Label" type="Label" parent="." unique_id=775997171]
+offset_left = 359.0
+offset_top = 73.0
+offset_right = 862.0
+offset_bottom = 138.0
+theme_override_font_sizes/font_size = 47
+text = "This is Conical Motion"

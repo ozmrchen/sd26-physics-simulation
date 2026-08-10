@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://mvjgomoeviif"]
+
+[ext_resource type="Texture2D" uid="uid://cib2h625idk16" path="res://icon.svg" id="1_7jmye"]
+[ext_resource type="Script" uid="uid://dh23tubxwal7n" path="res://tempBack.gd" id="2_kcuwp"]
+
+[node name="ProjectileMotion" type="Node2D" unique_id=1828416326]
+
+[node name="Icon" type="Sprite2D" parent="." unique_id=1158050317]
+position = Vector2(67, 68)
+texture = ExtResource("1_7jmye")
+
+[node name="Button" type="Button" parent="." unique_id=938299865]
+offset_left = 180.0
+offset_top = 283.0
+offset_right = 393.0
+offset_bottom = 373.0
+text = "Back"
+script = ExtResource("2_kcuwp")
+
+[node name="Label" type="Label" parent="." unique_id=882142278]
+offset_left = 359.0
+offset_top = 73.0
+offset_right = 862.0
+offset_bottom = 138.0
+theme_override_font_sizes/font_size = 47
+text = "This is Projectile Motion"
