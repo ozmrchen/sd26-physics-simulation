@@ -1,12 +1,14 @@
 extends Control
 # C656b - Inheritance: this script extends the built-in Control class
 
-# C712b - Identifies functioning: this script controls the simulation
+# C712b - Identifies functioning: this script controls the simulation  ✓
 # selection menu — user picks a category tab, picks a simulation card,
 # then presses start to launch the chosen simulation's scene
 # C751b - Naming convention applied consistently across ALL elements in this
 # file: snake_case for variables/functions, PascalCase for node/type names —
 # matches Godot's own style guide throughout, not just in isolated spots
+# FB[C751b] REJECTED (C7-1) - same as C751a: 'ALL elements' fails on the scene
+#   tree (ReferenceRect4, Panel2, Button). Claim C721/C731, which you hold.
 
 # ── Simulation data ────────────────────────────────────────────────────────
 # Add or edit simulations here — no other code needs to change
@@ -52,7 +54,7 @@ const SIMULATIONS: Dictionary = {
 
 # C629b - why: String is used (not an int/enum id) because the value is used
 # directly as a Dictionary key to look up the matching SIMULATIONS entry
-# C713b - Identifies input needing validation: current_simulation is set from
+# C713b - Identifies input needing validation: current_simulation is set from  ✓
 # user selection and must be checked against SIMULATIONS before use (see
 # change_summary() and _on_start_pressed() below)
 var current_simulation: String = ""
@@ -68,7 +70,7 @@ const SETTINGS = preload("res://Settings.tscn")
 @onready var description_label: Label = $ReferenceRect4/Description
 # C627b - Graphical user interface (GUI) element reference
 @onready var formula_label    : Label = $ReferenceRect4/Panel2/Formula
-# C731b - Naming convention applied to an interface control: "formula_label"
+# C731b - Naming convention applied to an interface control: "formula_label"  ✓
 # clearly names both what it displays (formula) and what kind of node it is
 @onready var start_button: Panel = $ReferenceRect4/Button
 # C633b - Relevant GUI control (the clickable "start" panel/button)
@@ -76,7 +78,7 @@ const SETTINGS = preload("res://Settings.tscn")
 # ── Setup ──────────────────────────────────────────────────────────────────
 func _ready() -> void:
 	# C641b - Function
-	# C742b - Explains functionality: on load, this connects every category
+	# C742b - Explains functionality: on load, this connects every category  ✓
 	# tab and every simulation card to their handler functions, then selects
 	# the first tab and first card so the menu never opens on an empty state
 	
@@ -100,7 +102,7 @@ func _ready() -> void:
 	# Set defaults
 	var tabs  = get_tree().get_nodes_in_group("category_tabs")
 	# C621b - Local variable
-	# C721b - Naming convention applied to a variable: "tabs" is short but
+	# C721b - Naming convention applied to a variable: "tabs" is short but  ✓
 	# still clearly describes the group of nodes it holds
 	var cards = get_tree().get_nodes_in_group("sim_cards")
 	# C635b - Array (get_nodes_in_group returns a Godot Array)
@@ -114,6 +116,11 @@ func _ready() -> void:
 	# range check (tabs.size() > 0 / cards.size() > 0, here) and an
 	# existence check (simulation not in SIMULATIONS, in change_summary())
 	# C626b - Selection (if statement)
+# FB[C725b/C735b] REJECTED (C7-3) - size guards on internal node groups protect
+#   program state; C7-3 is about validating INPUT data. Your honest C7-3
+#   evidence is in circular_motion.gd: the free-text boxes and the CSV load.
+#   Claiming the individual checks there (C723a/C724a/C725a) would be three
+#   free, defensible cells - the helpers literally implement them.
 
 # ── Handlers ───────────────────────────────────────────────────────────────
 func _on_category_selected(id: String) -> void:
@@ -128,6 +135,9 @@ func _on_start_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		# C724b - Type checking ("is InputEventMouseButton")
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+# FB[C724b] WEAK (C7-3) - `is InputEventMouseButton` is event dispatch, not
+#   input-data validation. Same redirect: claim the type check where it
+#   validates data (circular_motion's _is_valid_float_string).
 			# C623b - Logical operator (and)
 			_on_start_pressed()
 
@@ -138,7 +148,7 @@ func _on_start_pressed() -> void:
 	# C645b - why: SIMULATIONS (an in-memory constant) is used as the data
 	# source here instead of reading a file, since this menu data is fixed
 	# ahead of time and doesn't need to be edited by the end user
-	# C732b - Describes functionality: looks up the currently selected
+	# C732b - Describes functionality: looks up the currently selected  ✓
 	# simulation's data, bails out with a message if nothing was picked, then
 	# transitions the whole scene to that simulation's dedicated .tscn file
 	var data = SIMULATIONS.get(current_simulation, null)
@@ -151,26 +161,26 @@ func _on_start_pressed() -> void:
 
 # ── change_options — called when a category tab is clicked ─────────────────
 # TODO: filter simulation list by category
-# C734b - Evidence of code maintenance: TODO comment tracks known unfinished
+# C734b - Evidence of code maintenance: TODO comment tracks known unfinished  ✓
 # work (category filtering) so it isn't lost or forgotten
 func change_options(category: String) -> void:
-	# C741b - Naming convention applied to a code structure: function name
+	# C741b - Naming convention applied to a code structure: function name  ✓
 	# "change_options" clearly matches its handler role (called from
 	# _on_category_selected)
 	print("Category changed to: ", category)
 
 # ── change_summary — called when a simulation card is clicked ──────────────
-# C722b - Outlines functioning: sets the currently selected simulation id,
+# C722b - Outlines functioning: sets the currently selected simulation id,  ✓
 # checks it's a real entry, then refreshes the title/description/formula
 # labels to match — nothing else in the UI updates from this function
 func change_summary(simulation: String) -> void:
 	current_simulation = simulation
 	if simulation not in SIMULATIONS:
-		# C723b - Existence checking (confirms the id is a real dictionary key)
+		# C723b - Existence checking (confirms the id is a real dictionary key)  ✓
 		print("Warning: no data found for id: ", simulation)
 		return
 
-	# C733b - Describes use of data: each field pulled from the matched
+	# C733b - Describes use of data: each field pulled from the matched  ✓
 	# SIMULATIONS entry is written straight into its matching Label, so the
 	# on-screen summary always mirrors whatever is stored in the dictionary
 	var data = SIMULATIONS[simulation]

@@ -4,21 +4,21 @@ extends Control
 # ============================================================================
 # CIRCULAR MOTION SIMULATOR
 # ----------------------------------------------------------------------------
-# FUNCTIONALITY (C742a): This script drives an interactive simulation of a
+# FUNCTIONALITY (C742a): This script drives an interactive simulation of a  ✓
 # ball moving in a horizontal circle on a string (centripetal motion). The
 # user adjusts mass, radius and velocity with sliders; the script recalculates
 # the centripetal force (F = m*v^2/r) in real time, animates the ball's
 # position each frame, and lets the user save/load their slider settings to
 # a CSV file so a session can be resumed later.
 #
-# USE OF DATA (C743a): Three continuous physical quantities (mass, radius,
+# USE OF DATA (C743a): Three continuous physical quantities (mass, radius,  ✓
 # velocity) are read from GUI sliders as floats, combined with the physics
 # formula, and pushed back out to Label nodes as formatted strings. The same
 # three values (plus the simulation's time_scale) are the only data written
 # to / read from disk, using CSV because it is small, human-readable, and can
 # be opened outside Godot for marking/checking (C645a).
 #
-# USE OF CODE STRUCTURES (C744a): Logic is grouped into clearly named regions:
+# USE OF CODE STRUCTURES (C744a): Logic is grouped into clearly named regions:  ✓
 #   - Setup (_ready)                : one-time wiring of signals/dialogs
 #   - Physics update (_process)     : per-frame motion + string drawing
 #   - Recalculation helpers         : _update_force_label, _update_all_labels
@@ -34,12 +34,18 @@ extends Control
 # C627a and C633a - GUI control references. Naming convention (C751a): every GUI
 # control variable is named <purpose>_<control type> (e.g. radius_slider,
 # radius_label) so its role and node type are both obvious at a glance.
+# FB[C751a] REJECTED (C7-1) - the claim is 'suitable naming for ALL solution
+#   elements', but the scene tree says otherwise: node paths here are camelCase
+#   (radiusSlider) against snake_case variables, and other scenes carry default
+#   names (Control4, ReferenceRect4, Button2). Your VARIABLE naming is genuinely
+#   good - that is C721, and it is confirmed. C751 needs the scene tree renamed
+#   to the same standard, or the claim dropped to the band you actually hold.
 @onready var radius_slider: HSlider = $layout/options/radiusSlider
 @onready var velocity_slider: HSlider = $layout/options/velocitySlider
 @onready var mass_slider: HSlider = $layout/options/massSlider
 
 @onready var save_dialog: FileDialog = $SaveFileDialog     # C634a - global var, explicit type
-@onready var import_dialog: FileDialog = $ImportFileDialog # C711a - snakecase naming convention
+@onready var import_dialog: FileDialog = $ImportFileDialog # C711a - snakecase naming convention  ✓
 
 @onready var radius_label: LineEdit = $layout/options/radiusLabel
 @onready var velocity_label: LineEdit = $layout/options/velocityLabel
@@ -57,7 +63,7 @@ extends Control
 const RADIUS_SCALE := 20.0   # C622a - pixels per slider unit, so the ball's
 							  # on-screen radius matches the slider intuitively
 
-# Acceptable ranges for validation (C735a/C745a). Kept as constants rather than
+# Acceptable ranges for validation (C735a/C745a). Kept as constants rather than  ✓
 # magic numbers so the "why" is documented once and reused everywhere.
 const MASS_MIN := 0.0
 const MASS_MAX := 20.0
@@ -97,7 +103,7 @@ func _ready() -> void:
 
 func _setup_file_dialogs() -> void:
 	# why: isolates FileDialog configuration from _ready() so _ready() stays
-	# readable as a short list of setup steps (C744a - code structure)
+	# readable as a short list of setup steps (C744a - code structure)  ✓
 	save_dialog.file_mode = FileDialog.FILE_MODE_SAVE_FILE
 	save_dialog.access = FileDialog.ACCESS_FILESYSTEM
 	save_dialog.add_filter("*.csv", "CSV Files")
@@ -174,7 +180,7 @@ func _process(delta: float) -> void:
 
 
 # =============================================================================
-# INPUT VALIDATION HELPERS (C735a / C745a)
+# INPUT VALIDATION HELPERS (C735a / C745a)  ✓
 # why: every value that can come from free-text user input (the label
 # text_submitted callbacks) or from an external CSV file needs to be checked
 # for existence, type and range before it is trusted - unlike slider input,
@@ -199,7 +205,7 @@ func _clamp_to_range(value: float, min_value: float, max_value: float) -> float:
 
 func _try_parse_validated_float(text: String, min_value: float, max_value: float, fallback: float) -> float:
 	# Combines existence + type + range checks in one reusable helper so
-	# each text_submitted callback stays short and consistent (C744a)
+	# each text_submitted callback stays short and consistent (C744a)  ✓
 	if not _is_valid_float_string(text):
 		push_warning("Invalid numeric input '%s' - keeping previous value" % text)
 		return fallback
@@ -325,6 +331,10 @@ func _reset_sliders_to_defaults() -> void:
 
 
 func _on_button_3_button_down() -> void: # C741a - interface controls
+# FB[C741a] REJECTED (C7-1) - the description says 'interface controls' (that is
+#   C731's wording), and this function name is engine-autogenerated - naming
+#   credit needs a name you chose. _try_parse_validated_float is your honest
+#   C741 site: a deliberate, descriptive code-structure name.
 	if Engine.time_scale < 3:
 		Engine.time_scale += 0.1
 
@@ -402,7 +412,7 @@ func _on_import_button_up() -> void:
 # LABEL TEXT-SUBMITTED CALLBACKS
 # why: these are the only places a user can type arbitrary free text, so
 # they are the only places that need the full existence/type/range check
-# (C735a / C745a) rather than relying on the slider's built-in clamping.
+# (C735a / C745a) rather than relying on the slider's built-in clamping.  ✓
 # =============================================================================
 
 func _on_radius_label_text_submitted(new_text: String) -> void:

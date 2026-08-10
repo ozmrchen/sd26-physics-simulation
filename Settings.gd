@@ -1,12 +1,14 @@
 extends Control
 # C656c - Inheritance: this script extends the built-in Control class
 
-# C712c - Identifies functioning: this script reads/writes the shared
+# C712c - Identifies functioning: this script reads/writes the shared  ✓
 # Global dark-mode and formula-visibility settings, and toggles the
 # dark-mode button + canvas visibility to match
 # C751c - Naming convention applied consistently across ALL elements in this
 # pair of files: snake_case variables/functions, matching Godot's own style
 # guide throughout, not just in isolated spots
+# FB[C751c] REJECTED (C7-1) - 'ALL elements' with Control4, Control2 and
+#   ReferenceRect4 in the scene tree is not defensible. C721/C741 are yours.
 
 const HOME = preload("res://HomeScreen.tscn")
 # C622c - Constant (preloaded scene reference that never changes at runtime)
@@ -18,7 +20,7 @@ var cooldown = false
 
 func _ready() -> void:
 	# C641c - Function
-	# C722c - Outlines functioning: reads the current dark_mode value, then
+	# C722c - Outlines functioning: reads the current dark_mode value, then  ✓
 	# sets both the toggle button's visual state and the CanvasLayer's
 	# visibility to match it on scene load
 	print(Global.dark_mode)
@@ -47,7 +49,7 @@ func _on_settings_2_button_up() -> void:
 	# C613c - Text/String data type (scene path)
 
 func _on_control_2_button_up() -> void:
-	# C733c - Describes use of data: flips the shared Global.show_formula
+	# C733c - Describes use of data: flips the shared Global.show_formula  ✓
 	# flag, which other scenes read to decide whether the formula label
 	# should be visible — this script never reads that value itself
 	Global.show_formula = not Global.show_formula
@@ -57,7 +59,7 @@ func _on_control_4_button_up() -> void:
 	# C643c - Access modifier convention: leading underscore marks this as an
 	# internal/private-style function, only meant to be triggered by the
 	# connected button_up signal, not called directly from other scripts
-	# C742c - Explains functionality: this is a debounced toggle — cooldown
+	# C742c - Explains functionality: this is a debounced toggle — cooldown  ✓
 	# blocks repeat presses while the animation is running, then the actual
 	# dark_mode flag is flipped, the button icon and canvas visibility are
 	# updated to match, and cooldown is released again after a fixed delay
@@ -79,7 +81,7 @@ func _on_control_4_button_up() -> void:
 		# C614c - Numeric data type (float, 0.3 seconds)
 		# TODO: pull 0.3 out into a named constant so the cooldown and the
 		# tween durations in Control4.gd can't drift out of sync
-		# C734c - Evidence of code maintenance: TODO tracking known
+		# C734c - Evidence of code maintenance: TODO tracking known  ✓
 		# improvement so it isn't lost or forgotten
 		cooldown = false
 	else:
