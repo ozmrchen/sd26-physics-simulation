@@ -8294,7 +8294,7 @@ border_color = Color(0.34509805, 0.34509805, 0.34509805, 1)
 border_width = 2.0
 editor_only = false
 
-[node name="massSlider" type="HSlider" parent="ReferenceRect4/Panel4" unique_id=2000549250]
+[node name="speedSlider" type="HSlider" parent="ReferenceRect4/Panel4" unique_id=2000549250]
 layout_mode = 0
 offset_left = 287.0
 offset_top = 17.0
@@ -8303,14 +8303,15 @@ offset_bottom = 47.0
 theme_override_styles/slider = ExtResource("2_mx4kw")
 theme_override_styles/grabber_area = SubResource("StyleBoxFlat_sfvul")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_blqn1")
-max_value = 4.0
-value = 2.0
+max_value = 3.0
+step = 0.1
+value = 1.0
 
-[node name="Label" type="Label" parent="ReferenceRect4/Panel4" unique_id=1877697511]
+[node name="speedLabel" type="Label" parent="ReferenceRect4/Panel4" unique_id=1877697511]
 layout_mode = 0
-offset_left = 452.0
+offset_left = 444.0
 offset_top = 20.0
-offset_right = 471.0
+offset_right = 463.0
 offset_bottom = 43.0
 text = "1x"
 

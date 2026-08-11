@@ -28,6 +28,9 @@ func _ready() -> void:
 	# C645c - why: an autoload singleton was chosen over passing values
 	# scene-to-scene because dark_mode/show_formula need to be readable and
 	# writable from many unrelated scenes (menu, settings, simulations)
+	
+	$ReferenceRect4/Panel4/speedSlider.value = Global.default_speed
+	
 	if Global.dark_mode == true:
 		# C615c - Boolean data type (the literal "true")
 		$ReferenceRect4/Control4.on()
@@ -41,6 +44,12 @@ func _ready() -> void:
 		$CanvasLayer.visible = true
 		# C627c - GUI element (CanvasLayer visibility)
 	# C626c - Selection (if/else)
+	
+func _process(delta: float) -> void:
+	
+	$ReferenceRect4/Panel4/speedLabel.text = "%sx" % $ReferenceRect4/Panel4/speedSlider.value
+	
+	Global.default_speed = $ReferenceRect4/Panel4/speedSlider.value
 
 func _on_settings_2_button_up() -> void:
 	get_tree().change_scene_to_file("res://HomeScreen.tscn")

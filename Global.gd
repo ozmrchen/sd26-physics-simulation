@@ -1,7 +1,7 @@
 extends Node
 
 #Setting defaults
-var default_speed = 1
+var default_speed = 1 # C631a - global variable
 var show_formula = true
 var rounding_mode = "dp" #sf and dp
 var decimal_places = 2

@@ -31,14 +31,16 @@ extends Control
 # ============================================================================
 
 # --- Interface controls (GUI) -----------------------------------------------
-# C627a and C633a - GUI control references. Naming convention (C751a): every GUI
+# Naming convention (C751a): every GUI
 # control variable is named <purpose>_<control type> (e.g. radius_slider,
 # radius_label) so its role and node type are both obvious at a glance.
-@onready var radius_slider: HSlider = $layout/options/radiusSlider
-@onready var velocity_slider: HSlider = $layout/options/velocitySlider
+@onready var radius_slider: HSlider = $layout/options/radiusSlider # C627a - GUI element
+@onready var velocity_slider: HSlider = $layout/options/velocitySlider # C611a - instruction to make 
+#																	   a variable called velocity slider which  
+#																	   is assigned the path of velocity slider
 @onready var mass_slider: HSlider = $layout/options/massSlider
 
-@onready var save_dialog: FileDialog = $SaveFileDialog     # C634a - global var, explicit type
+@onready var save_dialog: FileDialog = $SaveFileDialog
 @onready var import_dialog: FileDialog = $ImportFileDialog # C711a - snakecase naming convention
 
 @onready var radius_label: LineEdit = $layout/options/radiusLabel
@@ -67,12 +69,12 @@ const VELOCITY_MIN := -60.0
 const VELOCITY_MAX := 60.0
 
 # --- Physics state -------------------------------------------------------
-# why float: angle/angular_velocity are continuous, not whole-number counts
+# why float: angle/angular_velocity are continuous, not whole-number therefor a float should be used - C629a
 var _angle: float = 0.0                 # C643a - "_" prefix denotes private/internal use
 var _angular_velocity: float = 0.0
 # why float: distance and mass can be fractional (e.g. 152.5g or 153.6 px)
 var radius: float = 100.0               # C614a - numeric data type
-var mass: float = 1.0                   # C631a - global variable
+var mass: float = 1.0                   
 
 var tween_toggle: bool = true           # C615a - boolean data type, why: tracks
 										  # whether the options panel is currently
@@ -88,6 +90,7 @@ func _ready() -> void:
 	_connect_slider_signals()
 	_update_values_from_sliders()
 	_update_all_labels()
+	Engine.time_scale = Global.default_speed
 	
 	if Global.dark_mode == true:
 		pass
@@ -311,7 +314,7 @@ func _on_button_button_up() -> void:
 	Engine.time_scale = 0.0
 
 
-func _on_button_2_button_down() -> void:
+func _on_button_2_button_down() -> void: # C633a - when the button is pressed (GUI control)
 	Engine.time_scale = 1.0
 	_reset_sliders_to_defaults()
 
