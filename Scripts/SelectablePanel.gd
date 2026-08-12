@@ -1,6 +1,5 @@
 extends Panel
 
-# ── Customise these per-node in the Inspector ──────────────────────────────
 @export var normal_bg           : Color  = Color("#2a2a2a")
 @export var selected_bg         : Color  = Color("#F5A62322")
 @export var normal_border       : Color  = Color("#333333")
@@ -14,21 +13,15 @@ extends Panel
 @export var border_width        : int    = 1
 @export var corner_radius       : int    = 9
 
-# Unique ID for this panel — set this in the Inspector
-# e.g. "motion", "fields", "circular_motion", "orbital_motion"
 @export var panel_id: String = ""
 
-# "category_tabs" for the top bar, "sim_cards" for the simulation list
 @export var selection_group: String = "selectable_panels"
 
-# ── State ──────────────────────────────────────────────────────────────────
 var is_selected: bool = false
 var _style     : StyleBoxFlat
 
-# Passes panel_id so the parent script knows which panel was clicked
 signal panel_selected(id: String)
 
-# ── Setup ──────────────────────────────────────────────────────────────────
 func _ready() -> void:
 	add_to_group(selection_group)
 	mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
@@ -50,13 +43,11 @@ func _ready() -> void:
 	if title and title.label_settings:
 		title.label_settings = title.label_settings.duplicate()
 
-# ── Input ──────────────────────────────────────────────────────────────────
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			select()
 
-# ── Public methods ─────────────────────────────────────────────────────────
 func select() -> void:
 	for node in get_tree().get_nodes_in_group(selection_group):
 		if node != self and node.has_method("deselect"):
@@ -70,7 +61,6 @@ func deselect() -> void:
 	is_selected = false
 	_apply_style(false)
 
-# ── Internal ───────────────────────────────────────────────────────────────
 func _apply_style(selected: bool) -> void:
 	_style.bg_color     = selected_bg     if selected else normal_bg
 	_style.border_color = selected_border if selected else normal_border
