@@ -1,0 +1,894 @@
+[gd_scene format=3 uid="uid://uiu38rapcwy5"]
+
+[ext_resource type="Script" uid="uid://bd4mul43f0gnf" path="res://Scripts/circular_motion.gd" id="1_jmeph"]
+[ext_resource type="StyleBox" uid="uid://bqhi5ab2dl6xj" path="res://Other/new_style_box_flat.tres" id="2_kjld8"]
+[ext_resource type="Texture2D" uid="uid://cib2h625idk16" path="res://Other/icon.svg" id="3_o2hbk"]
+[ext_resource type="Script" uid="uid://dh23tubxwal7n" path="res://Scripts/tempBack.gd" id="4_l3v42"]
+[ext_resource type="Texture2D" uid="uid://d3girqn8tw82f" path="res://Other/bsll.tres" id="5_ku0q2"]
+[ext_resource type="Shader" uid="uid://c16ttbr7as8o7" path="res://Other/HomeScreen.gdshader" id="6_kqhsf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ro08o"]
+bg_color = Color(0.13174233, 0.13174233, 0.1317423, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.34407556, 0.3440758, 0.34407565, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_km2ak"]
+bg_color = Color(0.1749846, 0.17498463, 0.17498457, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.34407556, 0.3440758, 0.34407565, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_utdur"]
+bg_color = Color(0.8627451, 0.52156866, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_67tde"]
+bg_color = Color(0.8627451, 0.52156866, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vce6g"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.101960786, 0.101960786, 0.101960786, 0)
+border_color = Color(0, 0, 0, 0)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+shadow_color = Color(0, 0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yojqb"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0)
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8, 0.8, 0.8, 0)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0mrc2"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.13333334, 0.13333334, 0.13333334, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.34509805, 0.34509805, 0.34509805, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2jabr"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.27022192, 0.27022192, 0.27022186, 0.6)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.31925523, 0.31925526, 0.31925526, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_axb7p"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ta51w"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lyxqx"]
+bg_color = Color(0.019925633, 0.019925632, 0.019925632, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.34407556, 0.3440758, 0.34407565, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="Gradient" id="Gradient_utdur"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.42, 0.996, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.3647059, 0.3647059, 0.3647059, 0, 0.364, 0.364, 0.364, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_67tde"]
+gradient = SubResource("Gradient_utdur")
+width = 35
+height = 35
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_km2ak"]
+shader = ExtResource("6_kqhsf")
+
+[node name="CircularMotion" type="Control" unique_id=1647414567]
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 1
+script = ExtResource("1_jmeph")
+
+[node name="layout" type="ReferenceRect" parent="." unique_id=2119254605]
+z_index = -1
+z_as_relative = false
+y_sort_enabled = true
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 1151.0
+offset_bottom = 647.0
+mouse_filter = 1
+border_color = Color(0.34407556, 0.3440758, 0.34407565, 1)
+border_width = 2.0
+editor_only = false
+
+[node name="options" type="ReferenceRect" parent="layout" unique_id=1818255828]
+z_index = 10
+layout_mode = 0
+offset_top = 53.0
+offset_right = 294.0
+offset_bottom = 646.0
+mouse_filter = 1
+border_color = Color(0.34407556, 0.3440758, 0.34407565, 1)
+border_width = 2.0
+editor_only = false
+
+[node name="Panel3" type="Panel" parent="layout/options" unique_id=550550539]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 16.0
+offset_right = 283.0
+offset_bottom = 153.0
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_ro08o")
+
+[node name="Label" type="Label" parent="layout/options/Panel3" unique_id=1134191752]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 3.0
+offset_right = 93.0
+offset_bottom = 30.0
+theme_override_colors/font_color = Color(0.573792, 0.5737919, 0.5737919, 1)
+theme_override_font_sizes/font_size = 19
+text = "Formula For String Tension"
+
+[node name="Label2" type="Label" parent="layout/options/Panel3" unique_id=1059232497]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 28.0
+offset_right = 160.0
+offset_bottom = 65.0
+theme_override_colors/font_color = Color(0.8614721, 0.5222734, 1.347661e-06, 1)
+theme_override_font_sizes/font_size = 27
+text = "F = mv² / r"
+
+[node name="Label" type="Label" parent="layout/options" unique_id=698859538]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 155.0
+offset_right = 95.0
+offset_bottom = 182.0
+mouse_filter = 1
+theme_override_colors/font_color = Color(0.573792, 0.5737919, 0.5737919, 1)
+theme_override_font_sizes/font_size = 19
+text = "Variables"
+
+[node name="variable1" type="ReferenceRect" parent="layout/options" unique_id=307554635]
+z_index = 14
+z_as_relative = false
+y_sort_enabled = true
+layout_mode = 0
+offset_left = 1.0
+offset_top = 186.0
+offset_right = 294.0
+offset_bottom = 248.0
+mouse_filter = 1
+border_color = Color(0.34407556, 0.3440758, 0.34407565, 1)
+border_width = 0.0
+editor_only = false
+
+[node name="Label2" type="Label" parent="layout/options/variable1" unique_id=1853480272]
+layout_mode = 0
+offset_left = 38.0
+offset_top = 15.0
+offset_right = 123.0
+offset_bottom = 42.0
+mouse_filter = 1
+theme_override_colors/font_color = Color(0.573792, 0.5737919, 0.5737919, 1)
+theme_override_font_sizes/font_size = 19
+text = "Mass"
+
+[node name="Label4" type="Label" parent="layout/options/variable1" unique_id=1325521686]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 10.0
+offset_right = 34.0
+offset_bottom = 47.0
+mouse_filter = 1
+theme_override_colors/font_color = Color(0.8614721, 0.5222734, 1.347661e-06, 1)
+theme_override_font_sizes/font_size = 24
+text = "m"
+
+[node name="Panel2" type="Panel" parent="layout/options/variable1" unique_id=1158946410]
+layout_mode = 0
+offset_left = 161.0
+offset_top = 5.0
+offset_right = 251.0
+offset_bottom = 36.0
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_km2ak")
+
+[node name="Label3" type="Label" parent="layout/options/variable1" unique_id=686280304]
+layout_mode = 0
+offset_left = 254.0
+offset_top = 9.0
+offset_right = 339.0
+offset_bottom = 36.0
+mouse_filter = 1
+theme_override_colors/font_color = Color(0.573792, 0.5737919, 0.5737919, 1)
+theme_override_font_sizes/font_size = 19
+text = "kg"
+
+[node name="variable2" type="ReferenceRect" parent="layout/options" unique_id=337220292]
+z_index = 10
+z_as_relative = false
+y_sort_enabled = true
+layout_mode = 0
+offset_left = 1.0
+offset_top = 248.0
+offset_right = 294.0
+offset_bottom = 310.0
+border_color = Color(0.34407556, 0.3440758, 0.34407565, 1)
+border_width = 0.0
+editor_only = false
+
+[node name="Label2" type="Label" parent="layout/options/variable2" unique_id=1346637758]
+layout_mode = 0
+offset_left = 38.0
+offset_top = 15.0
+offset_right = 123.0
+offset_bottom = 42.0
+theme_override_colors/font_color = Color(0.573792, 0.5737919, 0.5737919, 1)
+theme_override_font_sizes/font_size = 19
+text = "Velocity"
+
+[node name="Label4" type="Label" parent="layout/options/variable2" unique_id=609129500]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 10.0
+offset_right = 34.0
+offset_bottom = 47.0
+theme_override_colors/font_color = Color(0.8614721, 0.5222734, 1.347661e-06, 1)
+theme_override_font_sizes/font_size = 24
+text = "v"
+
+[node name="Panel2" type="Panel" parent="layout/options/variable2" unique_id=796176821]
+layout_mode = 0
+offset_left = 162.0
+offset_top = 5.0
+offset_right = 252.0
+offset_bottom = 36.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_km2ak")
+
+[node name="Label3" type="Label" parent="layout/options/variable2" unique_id=100773575]
+layout_mode = 0
+offset_left = 255.0
+offset_top = 9.0
+offset_right = 340.0
+offset_bottom = 36.0
+theme_override_colors/font_color = Color(0.573792, 0.5737919, 0.5737919, 1)
+theme_override_font_sizes/font_size = 19
+text = "m/s"
+
+[node name="variable3" type="ReferenceRect" parent="layout/options" unique_id=197177043]
+z_index = 10
+z_as_relative = false
+y_sort_enabled = true
+layout_mode = 0
+offset_left = 1.0
+offset_top = 310.0
+offset_right = 294.0
+offset_bottom = 372.0
+border_color = Color(0.34407556, 0.3440758, 0.34407565, 1)
+border_width = 0.0
+editor_only = false
+
+[node name="Label2" type="Label" parent="layout/options/variable3" unique_id=1938441671]
+layout_mode = 0
+offset_left = 38.0
+offset_top = 15.0
+offset_right = 123.0
+offset_bottom = 42.0
+theme_override_colors/font_color = Color(0.573792, 0.5737919, 0.5737919, 1)
+theme_override_font_sizes/font_size = 19
+text = "Radius"
+
+[node name="Label4" type="Label" parent="layout/options/variable3" unique_id=678417066]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 10.0
+offset_right = 34.0
+offset_bottom = 47.0
+theme_override_colors/font_color = Color(0.8614721, 0.5222734, 1.347661e-06, 1)
+theme_override_font_sizes/font_size = 24
+text = "r"
+
+[node name="Panel2" type="Panel" parent="layout/options/variable3" unique_id=361033494]
+layout_mode = 0
+offset_left = 162.0
+offset_top = 5.0
+offset_right = 252.0
+offset_bottom = 36.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_km2ak")
+
+[node name="Label3" type="Label" parent="layout/options/variable3" unique_id=648244995]
+layout_mode = 0
+offset_left = 255.0
+offset_top = 9.0
+offset_right = 340.0
+offset_bottom = 36.0
+theme_override_colors/font_color = Color(0.573792, 0.5737919, 0.5737919, 1)
+theme_override_font_sizes/font_size = 19
+text = "m"
+
+[node name="radiusLabel" type="Label" parent="layout/options/variable3/Label3" unique_id=2109535264]
+visible = false
+z_index = 10
+layout_mode = 0
+offset_left = -89.0
+offset_top = -10.0
+offset_right = -10.0
+offset_bottom = 33.0
+theme_override_colors/font_color = Color(0.8569272, 0.8569273, 0.85692716, 1)
+theme_override_font_sizes/font_size = 19
+text = "1.50"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="layout/options" unique_id=1537385434]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 385.0
+offset_right = 99.0
+offset_bottom = 412.0
+mouse_filter = 1
+theme_override_colors/font_color = Color(0.573792, 0.5737919, 0.5737919, 1)
+theme_override_font_sizes/font_size = 19
+text = "DISPLAY"
+
+[node name="ReferenceRect7" type="ReferenceRect" parent="layout/options" unique_id=1157515833]
+z_index = 10
+layout_mode = 0
+offset_left = 18.0
+offset_top = 379.0
+offset_right = 275.0
+offset_bottom = 379.0
+mouse_filter = 1
+border_color = Color(0.34407556, 0.3440758, 0.34407565, 1)
+border_width = 2.0
+editor_only = false
+
+[node name="massLabel2" type="Label" parent="layout/options" unique_id=1868352582]
+visible = false
+z_index = 14
+layout_mode = 0
+offset_left = 166.0
+offset_top = 185.0
+offset_right = 245.0
+offset_bottom = 228.0
+mouse_filter = 1
+theme_override_colors/font_color = Color(0.8569272, 0.8569273, 0.85692716, 1)
+theme_override_font_sizes/font_size = 19
+text = "2.00"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="velocityLabel2" type="Label" parent="layout/options" unique_id=1156959032]
+visible = false
+z_index = 14
+layout_mode = 0
+offset_left = 167.0
+offset_top = 247.0
+offset_right = 246.0
+offset_bottom = 290.0
+theme_override_colors/font_color = Color(0.8569272, 0.8569273, 0.85692716, 1)
+theme_override_font_sizes/font_size = 19
+text = "3.00"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="forceLabel" type="Label" parent="layout/options" unique_id=1037293285]
+z_index = 9
+layout_mode = 0
+offset_left = 23.0
+offset_top = 102.0
+offset_right = 174.0
+offset_bottom = 139.0
+theme_override_colors/font_color = Color(0.8614721, 0.5222734, 1.347661e-06, 1)
+theme_override_font_sizes/font_size = 24
+text = "= 12.00 N"
+
+[node name="formulaLabel" type="Label" parent="layout/options" unique_id=279980321]
+z_index = 10
+layout_mode = 0
+offset_left = 20.0
+offset_top = 77.0
+offset_right = 203.0
+offset_bottom = 104.0
+theme_override_colors/font_color = Color(0.573792, 0.5737919, 0.5737919, 1)
+theme_override_font_sizes/font_size = 19
+text = "F = (2.0 * 3.0²) / 1.5"
+
+[node name="speedLabel" type="Label" parent="layout/options" unique_id=1119664355]
+z_index = 10
+layout_mode = 0
+offset_left = 9.0
+offset_top = 414.0
+offset_right = 192.0
+offset_bottom = 441.0
+theme_override_colors/font_color = Color(0.573792, 0.5737919, 0.5737919, 1)
+theme_override_font_sizes/font_size = 19
+text = "Speed: 100%"
+
+[node name="massSlider" type="HSlider" parent="layout/options" unique_id=225370447]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 219.0
+offset_right = 280.0
+offset_bottom = 249.0
+theme_override_styles/slider = ExtResource("2_kjld8")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_utdur")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_67tde")
+max_value = 20.0
+step = 0.1
+value = 2.0
+
+[node name="velocitySlider" type="HSlider" parent="layout/options" unique_id=1659925702]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 281.0
+offset_right = 280.0
+offset_bottom = 311.0
+theme_override_styles/slider = ExtResource("2_kjld8")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_utdur")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_67tde")
+min_value = -60.0
+max_value = 60.0
+step = 0.1
+value = 3.0
+
+[node name="radiusSlider" type="HSlider" parent="layout/options" unique_id=665921636]
+z_index = 100
+z_as_relative = false
+layout_mode = 0
+offset_left = 13.0
+offset_top = 343.0
+offset_right = 280.0
+offset_bottom = 373.0
+theme_override_styles/slider = ExtResource("2_kjld8")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_utdur")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_67tde")
+min_value = 2.5
+max_value = 10.0
+step = 0.1
+value = 3.0
+
+[node name="ColorRect" type="ColorRect" parent="layout/options" unique_id=575831363]
+z_index = -15
+layout_mode = 0
+offset_left = -1.0
+offset_top = -54.0
+offset_right = 294.0
+offset_bottom = 594.0
+mouse_filter = 2
+color = Color(0.09019608, 0.09019608, 0.09019608, 1)
+
+[node name="radiusLabel" type="LineEdit" parent="layout/options" unique_id=1190006556]
+z_index = 30
+layout_mode = 0
+offset_left = 163.0
+offset_top = 310.0
+offset_right = 251.0
+offset_bottom = 351.0
+theme_override_colors/font_color = Color(0.85882354, 0.85882354, 0.85882354, 1)
+theme_override_colors/font_uneditable_color = Color(1, 1, 1, 0.5019608)
+theme_override_colors/font_selected_color = Color(0.85882354, 0.85882354, 0.85882354, 1)
+theme_override_colors/font_placeholder_color = Color(1, 1, 1, 0.6)
+theme_override_colors/caret_color = Color(0.85882354, 0.85882354, 0.85882354, 1)
+theme_override_colors/selection_color = Color(0.5019608, 0.5019608, 0.5019608, 0)
+theme_override_colors/clear_button_color_pressed = Color(0.85882354, 0.85882354, 0.85882354, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_vce6g")
+theme_override_styles/focus = SubResource("StyleBoxFlat_yojqb")
+text = "1.50"
+alignment = 2
+text_direction = 1
+
+[node name="velocityLabel" type="LineEdit" parent="layout/options" unique_id=1558194249]
+z_index = 30
+layout_mode = 0
+offset_left = 163.0
+offset_top = 248.0
+offset_right = 251.0
+offset_bottom = 289.0
+theme_override_colors/font_color = Color(0.85882354, 0.85882354, 0.85882354, 1)
+theme_override_colors/font_uneditable_color = Color(1, 1, 1, 0.5019608)
+theme_override_colors/font_selected_color = Color(0.85882354, 0.85882354, 0.85882354, 1)
+theme_override_colors/font_placeholder_color = Color(1, 1, 1, 0.6)
+theme_override_colors/caret_color = Color(0.85882354, 0.85882354, 0.85882354, 1)
+theme_override_colors/selection_color = Color(0.5019608, 0.5019608, 0.5019608, 0)
+theme_override_colors/clear_button_color_pressed = Color(0.85882354, 0.85882354, 0.85882354, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_vce6g")
+theme_override_styles/focus = SubResource("StyleBoxFlat_yojqb")
+text = "1.50"
+alignment = 2
+text_direction = 1
+
+[node name="massLabel" type="LineEdit" parent="layout/options" unique_id=609331074]
+z_index = 30
+layout_mode = 0
+offset_left = 163.0
+offset_top = 186.0
+offset_right = 251.0
+offset_bottom = 227.0
+theme_override_colors/font_color = Color(0.85882354, 0.85882354, 0.85882354, 1)
+theme_override_colors/font_uneditable_color = Color(1, 1, 1, 0.5019608)
+theme_override_colors/font_selected_color = Color(0.85882354, 0.85882354, 0.85882354, 1)
+theme_override_colors/font_placeholder_color = Color(1, 1, 1, 0.6)
+theme_override_colors/caret_color = Color(0.85882354, 0.85882354, 0.85882354, 1)
+theme_override_colors/selection_color = Color(0.5019608, 0.5019608, 0.5019608, 0)
+theme_override_colors/clear_button_color_pressed = Color(0.85882354, 0.85882354, 0.85882354, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_vce6g")
+theme_override_styles/focus = SubResource("StyleBoxFlat_yojqb")
+text = "1.50"
+alignment = 2
+text_direction = 1
+
+[node name="UpperPanel" type="ReferenceRect" parent="layout" unique_id=265553626]
+z_index = 10
+layout_mode = 0
+offset_right = 1150.0
+offset_bottom = 53.0
+mouse_filter = 1
+border_color = Color(0.34407556, 0.3440758, 0.34407565, 1)
+border_width = 2.0
+editor_only = false
+
+[node name="show" type="Button" parent="layout/UpperPanel" unique_id=777327013]
+visible = false
+z_index = 7
+z_as_relative = false
+layout_mode = 0
+offset_left = 168.0
+offset_top = 7.0
+offset_right = 276.0
+offset_bottom = 44.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_0mrc2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_2jabr")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_axb7p")
+text = "Show UI
+"
+
+[node name="ColorRect3" type="ColorRect" parent="layout/UpperPanel" unique_id=581408156]
+z_index = -18
+layout_mode = 0
+offset_left = -1.0
+offset_top = -1.0
+offset_right = 1151.0
+offset_bottom = 53.0
+mouse_filter = 2
+color = Color(0.09019608, 0.09019608, 0.09019608, 1)
+
+[node name="hide" type="Button" parent="layout/UpperPanel" unique_id=1238175055]
+z_index = 7
+z_as_relative = false
+layout_mode = 0
+offset_left = 168.0
+offset_top = 7.0
+offset_right = 276.0
+offset_bottom = 44.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_0mrc2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_2jabr")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_ta51w")
+text = "Hide UI
+"
+
+[node name="ColorRect4" type="ColorRect" parent="layout" unique_id=2110308494]
+z_index = -28
+layout_mode = 0
+offset_left = -10.0
+offset_top = -14.0
+offset_right = 1174.0
+offset_bottom = 665.0
+mouse_filter = 2
+color = Color(0.15775332, 0.15775332, 0.15775326, 1)
+
+[node name="Icon" type="Sprite2D" parent="layout" unique_id=1374530238]
+position = Vector2(1321, 345)
+texture = ExtResource("3_o2hbk")
+
+[node name="Panel" type="Panel" parent="layout" unique_id=300898556]
+layout_mode = 0
+offset_left = 1186.0
+offset_top = 67.0
+offset_right = 1386.0
+offset_bottom = 154.0
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_lyxqx")
+
+[node name="Label" type="Label" parent="layout/Panel" unique_id=1906816088]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 3.0
+offset_right = 119.0
+offset_bottom = 45.0
+theme_override_colors/font_color = Color(0.573792, 0.5737919, 0.5737919, 1)
+theme_override_font_sizes/font_size = 19
+text = "F (net)"
+
+[node name="Panel2" type="Panel" parent="layout" unique_id=1500421738]
+layout_mode = 0
+offset_left = 1211.0
+offset_top = 165.0
+offset_right = 1411.0
+offset_bottom = 252.0
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_lyxqx")
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="layout/Panel2" unique_id=167307562]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 3.0
+offset_right = 119.0
+offset_bottom = 45.0
+theme_override_colors/font_color = Color(0.573792, 0.5737919, 0.5737919, 1)
+theme_override_font_sizes/font_size = 19
+text = "Vectors"
+
+[node name="Label" type="Label" parent="layout" unique_id=127179214]
+layout_mode = 0
+offset_left = 416.0
+offset_top = 5.0
+offset_right = 738.0
+offset_bottom = 47.0
+mouse_filter = 1
+theme_override_font_sizes/font_size = 30
+text = "This is Circular Motion"
+
+[node name="options2" type="ReferenceRect" parent="layout" unique_id=1730952579]
+z_index = 10
+layout_mode = 0
+offset_left = 294.0
+offset_top = 587.0
+offset_right = 1151.0
+offset_bottom = 646.0
+mouse_filter = 1
+border_color = Color(0.34407556, 0.3440758, 0.34407565, 1)
+border_width = 2.0
+editor_only = false
+
+[node name="Button" type="Button" parent="layout/options2" unique_id=1901615909]
+z_index = 7
+z_as_relative = false
+layout_mode = 0
+offset_left = 19.0
+offset_top = 12.0
+offset_right = 127.0
+offset_bottom = 49.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_0mrc2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_2jabr")
+text = "Pause"
+
+[node name="Button2" type="Button" parent="layout/options2" unique_id=1026694346]
+z_index = 7
+z_as_relative = false
+layout_mode = 0
+offset_left = 141.0
+offset_top = 12.0
+offset_right = 249.0
+offset_bottom = 49.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_0mrc2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_2jabr")
+text = "Reset"
+
+[node name="Button3" type="Button" parent="layout/options2" unique_id=1970880924]
+z_index = 7
+z_as_relative = false
+layout_mode = 0
+offset_left = 264.0
+offset_top = 12.0
+offset_right = 389.0
+offset_bottom = 49.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_0mrc2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_2jabr")
+text = "Increase Speed"
+
+[node name="Button4" type="Button" parent="layout/options2" unique_id=363389799]
+z_index = 7
+z_as_relative = false
+layout_mode = 0
+offset_left = 406.0
+offset_top = 12.0
+offset_right = 537.0
+offset_bottom = 49.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_0mrc2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_2jabr")
+text = "Decrease Speed"
+
+[node name="ColorRect2" type="ColorRect" parent="layout/options2" unique_id=494564968]
+z_index = -12
+layout_mode = 0
+offset_left = -3.0
+offset_top = 1.0
+offset_right = 858.0
+offset_bottom = 60.0
+mouse_filter = 2
+color = Color(0.09019608, 0.09019608, 0.09019608, 1)
+
+[node name="save" type="Button" parent="layout/options2" unique_id=1211719704]
+z_index = 7
+z_as_relative = false
+layout_mode = 0
+offset_left = 598.0
+offset_top = 12.0
+offset_right = 707.0
+offset_bottom = 49.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_0mrc2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_2jabr")
+text = "Save
+"
+
+[node name="import" type="Button" parent="layout/options2" unique_id=1935649195]
+z_index = 7
+z_as_relative = false
+layout_mode = 0
+offset_left = 718.0
+offset_top = 12.0
+offset_right = 831.0
+offset_bottom = 49.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_0mrc2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_2jabr")
+text = "Import
+"
+
+[node name="options3" type="ReferenceRect" parent="layout/options2" unique_id=459656566]
+z_index = 10
+layout_mode = 0
+offset_left = 568.0
+offset_right = 857.0
+offset_bottom = 59.0
+mouse_filter = 2
+border_color = Color(0.34407556, 0.3440758, 0.34407565, 1)
+border_width = 2.0
+editor_only = false
+
+[node name="Button" type="Button" parent="layout" unique_id=121157297]
+z_index = 7
+z_as_relative = false
+layout_mode = 0
+offset_left = 19.0
+offset_top = 8.0
+offset_right = 127.0
+offset_bottom = 45.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_0mrc2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_2jabr")
+text = "<- Home"
+script = ExtResource("4_l3v42")
+
+[node name="Camera2D" type="Camera2D" parent="layout" unique_id=1063718597]
+position = Vector2(576, 324)
+
+[node name="Ball" type="RigidBody2D" parent="." unique_id=342638353]
+z_index = 2
+position = Vector2(865, 343)
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Ball" unique_id=1885367062]
+texture = ExtResource("5_ku0q2")
+
+[node name="Pivot" type="StaticBody2D" parent="." unique_id=683062735]
+position = Vector2(737, 344)
+scale = Vector2(0.67999506, 0.71999997)
+metadata/_edit_group_ = true
+
+[node name="Sprite2D2" type="Sprite2D" parent="Pivot" unique_id=163345838]
+scale = Vector2(1.4705989, 1.388889)
+texture = SubResource("GradientTexture2D_67tde")
+
+[node name="Line2D" type="Line2D" parent="." unique_id=1913020461]
+points = PackedVector2Array(737, 344, 866, 344)
+width = 5.0
+
+[node name="SaveFileDialog" type="FileDialog" parent="." unique_id=309060535]
+oversampling_override = 1.0
+position = Vector2i(0, 36)
+
+[node name="ImportFileDialog" type="FileDialog" parent="." unique_id=940935276]
+oversampling_override = 1.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2075008905]
+layer = 8
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=2098629926]
+material = SubResource("ShaderMaterial_km2ak")
+offset_left = -18.0
+offset_top = -21.0
+offset_right = 1179.0
+offset_bottom = 680.0
+mouse_filter = 2
+
+[connection signal="text_submitted" from="layout/options/radiusLabel" to="." method="_on_radius_label_text_submitted"]
+[connection signal="text_submitted" from="layout/options/velocityLabel" to="." method="_on_velocity_label_text_submitted"]
+[connection signal="text_submitted" from="layout/options/massLabel" to="." method="_on_mass_label_text_submitted"]
+[connection signal="button_up" from="layout/UpperPanel/show" to="." method="_on_show_button_up"]
+[connection signal="button_up" from="layout/UpperPanel/hide" to="." method="_on_hide_button_up"]
+[connection signal="button_up" from="layout/options2/Button" to="." method="_on_button_button_up"]
+[connection signal="button_down" from="layout/options2/Button2" to="." method="_on_button_2_button_down"]
+[connection signal="button_down" from="layout/options2/Button3" to="." method="_on_button_3_button_down"]
+[connection signal="button_down" from="layout/options2/Button4" to="." method="_on_button_4_button_down"]
+[connection signal="button_up" from="layout/options2/save" to="." method="_on_save_button_up"]
+[connection signal="button_up" from="layout/options2/import" to="." method="_on_import_button_up"]

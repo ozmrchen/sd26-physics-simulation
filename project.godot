@@ -11,9 +11,9 @@ config_version=5
 [application]
 
 config/name="SchoolProject"
-run/main_scene="res://HomeScreen.tscn"
+run/main_scene="res://Scenes/HomeScreen.tscn"
 config/features=PackedStringArray("4.6", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://Other/icon.svg"
 
 [autoload]
 
