@@ -92,19 +92,22 @@ func get_centripetal_force() -> float:
 # which is already numeric and pre-clamped by the slider's own min/max.
 # =============================================================================
 
+
+## The next 2 functions use a range check, type check and existence check
+## to make sure values are value so there is no error
 # --- Shared validation helpers (generalised across every simulation) -------
 func _is_valid_float_string(text: String) -> bool:
-	# EXISTENCE check: reject empty/whitespace-only input
+	# EXISTENCE check: reject empty/whitespace-only input C723
 	var trimmed: String = text.strip_edges()
 	if trimmed.is_empty():
 		return false
-	# TYPE check: reject anything that doesn't actually parse as a number
+	# TYPE check: reject anything that doesn't actually parse as a number C724
 	if not trimmed.is_valid_float():
 		return false
 	return true
 
 func _clamp_to_range(value: float, min_value: float, max_value: float) -> float:
-	# RANGE check: keep validated numeric input inside a sensible range
+	# RANGE check: keep validated numeric input inside a sensible range C725
 	return clamp(value, min_value, max_value)
 
 func try_parse_validated_float(text: String, min_value: float, max_value: float, fallback: float) -> float:

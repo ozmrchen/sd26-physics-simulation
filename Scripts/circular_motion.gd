@@ -1,47 +1,28 @@
 extends BaseMotionSimulation
-# C656 - Inheritance
-#
-# ============================================================================
-# CIRCULAR MOTION SIMULATOR
-# ----------------------------------------------------------------------------
-# FUNCTIONALITY (C742a): This script drives an interactive simulation of a
-# ball moving in a horizontal circle on a string (centripetal motion). The
-# user adjusts mass, radius and velocity with sliders; the script recalculates
-# the centripetal force (F = m*v^2/r) in real time, animates the ball's
-# position each frame, and lets the user save/load their slider settings to
-# a CSV file so a session can be resumed later.
-#
-# USE OF DATA (C743a): Three continuous physical quantities (mass, radius,
-# velocity) are read from GUI sliders as floats, combined with the physics
-# formula, and pushed back out to Label nodes as formatted strings. The same
-# three values (plus the simulation's time_scale) are the only data written
-# to / read from disk, using CSV because it is small, human-readable, and can
-# be opened outside Godot for marking/checking (C645a).
-#
-# USE OF CODE STRUCTURES (C744a): Logic is grouped into clearly named regions:
-#   - Setup (_ready)                : one-time wiring of signals/dialogs
-#   - Physics update (_process)     : per-frame motion + string drawing
-#   - Recalculation helpers         : _update_force_label, _update_all_labels
-#   - Input validation helpers      : _is_valid_float_string, _clamp_to_range
-#   - File I/O                      : save_to_csv / load_from_csv
-#   - Signal callbacks              : _on_* functions, grouped by control
-# Each region is a small, single-purpose function rather than one long block,
-# which keeps the simulation logic (physics) separate from the interface
-# logic (labels/dialogs) and from persistence logic (CSV).
-# ============================================================================
+## NAMING CONVENTION (C711)
+## variables and functions snake_case; constants UPPER_SNAKE_CASE;
+## classes and nodes upper CamelCase; signals snake_case, past tense
 
-# --- Interface controls (GUI) -----------------------------------------------
-# Naming convention (C751a): every GUI
-# control variable is named <purpose>_<control type> (e.g. radius_slider,
-# radius_label) so its role and node type are both obvious at a glance.
-@onready var radius_slider: HSlider = $layout/options/radiusSlider # C627a - GUI element
-@onready var velocity_slider: HSlider = $layout/options/velocitySlider # C611a - instruction to make 
-#																	   a variable called velocity slider which  
-#																	   is assigned the path of velocity slider
+## FUNCTIONALALITY (C712)
+## 1. a simulation that simulates circular motion
+## 2. a homescreen for navigation
+## 3. a settings screen for customizablility 
+
+## USER INPUT DATA C713
+## User uses buttons, text boxes and sliders to change data
+
+## NAMING CONVENTIONS C721
+## snake_case for variables and functionss
+## Upper CamelCase for classes
+
+
+
+@onready var radius_slider: HSlider = $layout/options/radiusSlider
+@onready var velocity_slider: HSlider = $layout/options/velocitySlider  
 @onready var mass_slider: HSlider = $layout/options/massSlider
 
 @onready var save_dialog: FileDialog = $SaveFileDialog
-@onready var import_dialog: FileDialog = $ImportFileDialog # C711a - snakecase naming convention
+@onready var import_dialog: FileDialog = $ImportFileDialog 
 
 @onready var radius_label: LineEdit = $layout/options/radiusLabel
 @onready var velocity_label: LineEdit = $layout/options/velocityLabel
@@ -50,36 +31,24 @@ extends BaseMotionSimulation
 @onready var formula_label: Label = $layout/options/formulaLabel
 @onready var speed_label: Label = $layout/options/speedLabel
 
-# --- Simulation nodes ---------------------------------------------------
+# Simulation nodes 
 @onready var ball: Node2D = $Ball
 @onready var pivot: Node2D = $Pivot
 @onready var string_line: Line2D = $Line2D
 
-# --- Constants ---------------------------------------------------------
-const RADIUS_SCALE := 20.0   # C622a - pixels per slider unit, so the ball's
-							  # on-screen radius matches the slider intuitively
+# Constants 
+const RADIUS_SCALE := 20.0 
 
-# Acceptable ranges for validation (C735a/C745a). Kept as constants rather than
-# magic numbers so the "why" is documented once and reused everywhere.
-
-# --- Physics state -------------------------------------------------------
-# why float: angle/angular_velocity are continuous, not whole-number therefor a float should be used - C629a
-var _angle: float = 0.0                 # C643a - "_" prefix denotes private/internal use
+# Physics state
+var _angle: float = 0.0
 var _angular_velocity: float = 0.0
-# why float: distance and mass can be fractional (e.g. 152.5g or 153.6 px)
-var radius: float = 100.0               # C614a - numeric data type
+var radius: float = 100.0
 var mass: float = 1.0                   
 
-var tween_toggle: bool = true           # C615a - boolean data type, why: tracks
-										  # whether the options panel is currently
-										  # shown or hidden so show/hide can't
-										  # be triggered twice in a row
+var tween_toggle: bool = true
 
 
 func _ready() -> void:
-	# C641a - function. Sequence (C625a): dialogs, then slider signals, then
-	# an initial label refresh, so every control is fully configured before
-	# anything reads its value.
 	_setup_file_dialogs()
 	_connect_slider_signals()
 	_update_values_from_sliders()
@@ -93,8 +62,6 @@ func _ready() -> void:
 
 
 func _setup_file_dialogs() -> void:
-	# why: isolates FileDialog configuration from _ready() so _ready() stays
-	# readable as a short list of setup steps (C744a - code structure)
 	save_dialog.file_mode = FileDialog.FILE_MODE_SAVE_FILE
 	save_dialog.access = FileDialog.ACCESS_FILESYSTEM
 	save_dialog.add_filter("*.csv", "CSV Files")
@@ -120,26 +87,18 @@ func _update_all_labels() -> void:
 
 
 func _update_force_label() -> void:
-	# why local vars: values are read once per call rather than looked up
-	# repeatedly from the sliders, which is both faster and clearer to read
-	var linear_velocity: float = velocity_slider.value   # C621a - local var, C628a typed
+	var linear_velocity: float = velocity_slider.value
 	var current_radius: float = radius_slider.value
 	var current_mass: float = max(mass_slider.value, 0.0)
 
-	# Centripetal Force: F = (m * v^2) / r
-	# Guarded by radius > 0 (C624a comparison, C626a selection) because
-	# division by zero is undefined and would crash the simulation
 	if current_radius > 0:
 		var force: float = (current_mass * linear_velocity * linear_velocity) / current_radius
-		# C612a - arithmetic operators (*, /)
 		force_label.text = "= %.2f N" % snapped(force, 0.01)
 	else:
 		force_label.text = "= 0.00 N"
 
 	formula_label.text = "F = (%.2f * (%.2f)² ) / %.2f" % [current_mass, linear_velocity, current_radius]
-	# C613a - string data type (format string)
 	
-
 
 func _update_values_from_sliders() -> void:
 	mass = max(mass_slider.value, 0.0)
@@ -154,8 +113,6 @@ func _process(delta: float) -> void:
 	var current_mass: float = max(mass_slider.value, 0.0)
 	var old_angle: float = _angle
 
-	# Update the ball's angle using angular velocity; freeze motion at
-	# zero mass instead of letting the angle keep advancing (C626a selection)
 	_angle += _angular_velocity * delta
 	if current_mass == 0:
 		_angle = old_angle
@@ -164,12 +121,11 @@ func _process(delta: float) -> void:
 
 	speed_label.text = "= %.0f" % (snapped(Engine.time_scale, 0.01) * 100) + "%"
 
-	# Redraw the string each frame so it always connects pivot -> ball
 	string_line.clear_points()
 	string_line.add_point(pivot.position)
 	string_line.add_point(ball.position)
 
-# --- Signal callbacks ---------------------------------------------------
+# signals
 
 func _on_radius_changed(new_value: float) -> void:
 	radius_label.text = "%s" % new_value
