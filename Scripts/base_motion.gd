@@ -1,4 +1,4 @@
-class_name BaseMotionSimulation
+class_name BaseMotionSimulation #C651 - custom class
 extends Control
 
 
@@ -19,22 +19,28 @@ const VELOCITY_MAX := 60.0
 func get_mass() -> float:
 	return _mass
 
+# C643 - as a method it's used to modify a private variable and an object can use it 
+# so it can be changed externally but under precautions
 func set_mass(value: float) -> void:
 	_mass = clamp(value, MASS_MIN, MASS_MAX)
 
+
+# C654 - encapsulation, using both setter and getter as they are private variables (get_radius(), set_radius())
 func get_radius() -> float:
 	return _radius
 
 func set_radius(value: float) -> void:
 	_radius = clamp(value, RADIUS_MIN, RADIUS_MAX)
 
-func get_velocity() -> float:
+
+
+func get_velocity() -> float: # C642 - a method as it's inside a class
 	return _velocity
 
 func set_velocity(value: float) -> void:
 	_velocity = clamp(value, VELOCITY_MIN, VELOCITY_MAX)
 
-
+# C653 - abstraction, user doesnt see anything inside this method and only gets what is returned
 func get_centripetal_force() -> float:
 	if _radius <= 0:
 		return 0.0
@@ -60,7 +66,7 @@ func try_parse_validated_float(text: String, min_value: float, max_value: float,
 	return _clamp_to_range(text.to_float(), min_value, max_value)
 
 
-func save_state_to_csv(path: String, mass: float, velocity: float, radius: float) -> void:
+func save_state_to_csv(path: String, mass: float, velocity: float, radius: float) -> void: # C644 - data source "CSV file"
 	var file := FileAccess.open(path, FileAccess.WRITE)
 	if file == null:
 		print("Error opening file for writing: ", FileAccess.get_open_error())
@@ -70,8 +76,10 @@ func save_state_to_csv(path: String, mass: float, velocity: float, radius: float
 	file.close()
 	print("Saved to: ", path)
 
-func load_state_from_csv(path: String) -> Dictionary:
-	if not FileAccess.file_exists(path):
+func load_state_from_csv(path: String) -> Dictionary: # C645 - csv files are used for easy human readability
+	if not FileAccess.file_exists(path):			  # as well as it's table-like structure with commas being used to seperate columns. 
+													  # CSV files are utilised here to save integers (which have been converted to a string).
+													  # which are easily accessable to the user
 		print("File not found: ", path)
 		return {}
 
@@ -101,6 +109,8 @@ func load_state_from_csv(path: String) -> Dictionary:
 	}
 
 
+# C655 generalisation - every simulation made will have pause_simulation() so putting in this class
+# will prevent hard coding it throughout multiple other scripts
 func pause_simulation() -> void:
 	Engine.time_scale = 0.0
 

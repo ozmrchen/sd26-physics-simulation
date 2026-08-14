@@ -1,4 +1,14 @@
-extends BaseMotionSimulation
+extends BaseMotionSimulation # C656 - inherits the BaseMotionSimulation class
+
+# C657 - i have used a range of data structures types and soures such as csv, int, string, bool, arrays and a dictionary
+
+# C658 - the integers have been used for descrete values such as decimal place settings (in Global.gd) as you cant have
+# 0.1 decimal places but you can have 0 -> 3 decimal places. strings have been used to transfer text such as
+# roudning mode in Global.gd as you can select "dp" or "sf" as a setting. bools have been used for cases where
+# there is either true or false scenarios such as darkmode in "Global.gd", it's either on or its off. Dictionary
+# has been used to store values with a key assosiated with it to easily identify what data i want. CSV files
+# have been used to store data as an external source (base_motion.gd), that data type has been used for
+# its acceability and human readability. Arrays have been used for simple lists where only an idex is required.
 
 @onready var radius_slider: HSlider = $layout/options/radiusSlider
 @onready var velocity_slider: HSlider = $layout/options/velocitySlider
@@ -10,7 +20,7 @@ extends BaseMotionSimulation
 @onready var radius_label: LineEdit = $layout/options/radiusLabel
 @onready var velocity_label: LineEdit = $layout/options/velocityLabel
 @onready var mass_label: LineEdit = $layout/options/massLabel
-@onready var force_label: Label = $layout/options/forceLabel
+@onready var force_label: Label = $layout/options/forceLabel # C627 this label is a GUI element (Label)
 @onready var formula_label: Label = $layout/options/formulaLabel
 @onready var speed_label: Label = $layout/options/speedLabel
 
@@ -18,15 +28,17 @@ extends BaseMotionSimulation
 @onready var pivot: Node2D = $Pivot
 @onready var string_line: Line2D = $Line2D
 
-const RADIUS_SCALE := 20.0
+const RADIUS_SCALE := 20.0 # C622 - is a constant
 
 
-var _angle: float = 0.0
-var _angular_velocity: float = 0.0
-var radius: float = 100.0
-var mass: float = 1.0                   
+var _angle: float = 0.0 # C628 - assigns data type "float" while its a local variable
+var _angular_velocity: float = 0.0 # C621 - local variable denoted by the "_" as a prefix
+var radius: float = 100.0 # C614 - floating point is numeric
+var mass: float = 1.0 # C611- instructions (assigns mass with 1.0)        
+# C629 - Data types of float were used here because in physics you don't deal with descrete numbers
+# they vary and so floats are capable of being more precise         
 
-var tween_toggle: bool = true
+var tween_toggle: bool = true # C615 - tween_toggle is a boolean
 
 
 func _ready() -> void:
@@ -42,7 +54,7 @@ func _ready() -> void:
 		$CanvasLayer.visible = true
 
 
-func _setup_file_dialogs() -> void:
+func _setup_file_dialogs() -> void: # C641 - function used to setup the save dialog
 	save_dialog.file_mode = FileDialog.FILE_MODE_SAVE_FILE
 	save_dialog.access = FileDialog.ACCESS_FILESYSTEM
 	save_dialog.add_filter("*.csv", "CSV Files")
@@ -61,10 +73,12 @@ func _connect_slider_signals() -> void:
 
 
 func _update_all_labels() -> void:
+	# C625 - start sequence
 	mass_label.text = "%s" % mass_slider.value
 	radius_label.text = "%s" % radius_slider.value
 	velocity_label.text = "%s" % velocity_slider.value
 	_update_force_label()
+	# C625 - end sequence
 
 
 func _update_force_label() -> void:
@@ -72,11 +86,11 @@ func _update_force_label() -> void:
 	var current_radius: float = radius_slider.value
 	var current_mass: float = max(mass_slider.value, 0.0)
 
-	if current_radius > 0:
+	if current_radius > 0: # C624 conditional operator (condition if current_radius is greater than 0)
 		var force: float = (current_mass * linear_velocity * linear_velocity) / current_radius
 		force_label.text = "= %.2f N" % snapped(force, 0.01)
 	else:
-		force_label.text = "= 0.00 N"
+		force_label.text = "= 0.00 N" # C626 - assigns / selects the text label with "= 0.00 N"
 
 	formula_label.text = "F = (%.2f * (%.2f)² ) / %.2f" % [current_mass, linear_velocity, current_radius]
 	
@@ -95,13 +109,13 @@ func _process(delta: float) -> void:
 	var current_mass: float = max(mass_slider.value, 0.0)
 	var old_angle: float = _angle
 
-	_angle += _angular_velocity * delta
+	_angle += _angular_velocity * delta # C612 - uses + and * as arithmetic operations
 	if current_mass == 0:
 		_angle = old_angle
 
 	ball.position = pivot.position + Vector2(cos(_angle), sin(_angle)) * radius
 
-	speed_label.text = "= %.0f" % (snapped(Engine.time_scale, 0.01) * 100) + "%"
+	speed_label.text = "= %.0f" % (snapped(Engine.time_scale, 0.01) * 100) + "%" # C613 - string "= %.0f" is the text for the label
 
 	string_line.clear_points()
 	string_line.add_point(pivot.position)
@@ -112,7 +126,7 @@ func _on_radius_changed(new_value: float) -> void:
 	radius_label.text = "%s" % new_value
 	var new_radius: float = new_value * RADIUS_SCALE
 
-	if new_radius > 0 and radius > 0:
+	if new_radius > 0 and radius > 0: # C623 "and" is a logical operator
 		var current_linear_velocity: float = velocity_slider.value * 30.0
 		_angular_velocity = current_linear_velocity / new_radius
 
@@ -127,7 +141,7 @@ func _on_mass_changed(new_value: float) -> void:
 
 
 func _on_velocity_changed(new_value: float) -> void:
-	velocity_label.text = "%s" % new_value
+	velocity_label.text = "%s" % new_value 
 	var linear_velocity: float = new_value * 30.0
 
 	if radius > 0:
@@ -160,11 +174,13 @@ func _on_button_4_button_down() -> void:
 
 
 func _reset_sliders_to_defaults() -> void:
-	var sliders: Array = [mass_slider, velocity_slider, radius_slider]
+	var sliders: Array = [mass_slider, velocity_slider, radius_slider] # C635 - array was used to hold multiple values
 	var defaults: Array = [2, 3, 3]
 
+	# C632 Iteration begin "for loop"
 	for i in range(sliders.size()):
 		sliders[i].value = defaults[i]
+	# C632 Iteration finish
 
 
 
@@ -220,7 +236,7 @@ func _on_show_button_up() -> void:
 		$layout/UpperPanel/hide.disabled = false
 
 
-func _on_save_button_up() -> void:
+func _on_save_button_up() -> void: # C633 - runs when the save button is pressed (gui control)
 	save_dialog.popup_centered(Vector2i(600, 400))
 
 

@@ -1,7 +1,9 @@
 extends Control
 
-
-const SIMULATIONS: Dictionary = {
+# C638 - this data structure of type "Dictionary" is used so i can easily add, remove or edit the title, description,
+# formula and scene selection. All of the data inside the dictionary are strings as the labels that will show the
+# data use strings
+const SIMULATIONS: Dictionary = { # C636 - Record/Disctionary - used to store information with keys
 	"circular_motion": {
 		"title":       "Circular Motion",
 		"description": "An object moving in a circle experiences a centripetal force directed toward the centre. Adjust mass, velocity, and radius to see how each variable affects the net force required to maintain circular motion.",
