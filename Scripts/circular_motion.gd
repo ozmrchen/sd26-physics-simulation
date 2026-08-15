@@ -1,25 +1,19 @@
 extends BaseMotionSimulation
-## NAMING CONVENTION (C711)
-## variables and functions snake_case; constants UPPER_SNAKE_CASE;
-## classes and nodes upper CamelCase; signals snake_case, past tense
 
-## FUNCTIONALALITY (C712)
-## 1. a simulation that simulates circular motion
-## 2. a homescreen for navigation
-## 3. a settings screen for customizablility 
+## C711 - naming convention used through this whole thing: snake_case for
+## vars/funcs, ALL_CAPS for constants, private stuff gets a leading _
 
-## USER INPUT DATA C713
-## User uses buttons, text boxes and sliders to change data
-
-## NAMING CONVENTIONS C721
-## snake_case for variables and functionss
-## Upper CamelCase for classes
-
-
+## C712 - this script runs the circular motion sim, sliders control mass,
+## radius and velocity, ball spins around the pivot and the force label
+## updates live, can also save/load the current setup to a csv file
+## there's also a homescreen for navigation and a settings screen for
+## customizability
 
 @onready var radius_slider: HSlider = $layout/options/radiusSlider
 @onready var velocity_slider: HSlider = $layout/options/velocitySlider  
 @onready var mass_slider: HSlider = $layout/options/massSlider
+## C721 - vars named after what they hold + what control they are, so
+## radius_slider is obviously the slider for radius and nothing else
 
 @onready var save_dialog: FileDialog = $SaveFileDialog
 @onready var import_dialog: FileDialog = $ImportFileDialog 
@@ -30,16 +24,21 @@ extends BaseMotionSimulation
 @onready var force_label: Label = $layout/options/forceLabel
 @onready var formula_label: Label = $layout/options/formulaLabel
 @onready var speed_label: Label = $layout/options/speedLabel
+## C731 - same naming idea but for the actual interface controls, each
+## label/slider name tells you what it shows without opening the scene tree
 
-# Simulation nodes 
+## Simulation nodes 
 @onready var ball: Node2D = $Ball
 @onready var pivot: Node2D = $Pivot
 @onready var string_line: Line2D = $Line2D
 
-# Constants 
-const RADIUS_SCALE := 20.0 
+## Constants 
+const RADIUS_SCALE := 20.0
+const DEFAULT_MASS := 2.0
+const DEFAULT_VELOCITY := 3.0
+const DEFAULT_RADIUS := 3.0
 
-# Physics state
+## Physics state
 var _angle: float = 0.0
 var _angular_velocity: float = 0.0
 var radius: float = 100.0
@@ -49,6 +48,9 @@ var tween_toggle: bool = true
 
 
 func _ready() -> void:
+	## C722 - on load: load the file dialogs, connect slider signals,
+	## work out starting values off whatever the sliders default to, then
+	## refresh the labels so nothing shows 0 or blank when it first opens
 	_setup_file_dialogs()
 	_connect_slider_signals()
 	_update_values_from_sliders()
@@ -65,7 +67,7 @@ func _setup_file_dialogs() -> void:
 	save_dialog.file_mode = FileDialog.FILE_MODE_SAVE_FILE
 	save_dialog.access = FileDialog.ACCESS_FILESYSTEM
 	save_dialog.add_filter("*.csv", "CSV Files")
-	save_dialog.file_selected.connect(_on_save_file_selected)   # C642a - method call
+	save_dialog.file_selected.connect(_on_save_file_selected)
 
 	import_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
 	import_dialog.access = FileDialog.ACCESS_FILESYSTEM
@@ -87,6 +89,9 @@ func _update_all_labels() -> void:
 
 
 func _update_force_label() -> void:
+	## C732 - works out F = mv^2/r off whatever the sliders currently say
+	## and writes it to the force label, updates every time a slider moves,
+	## skips the divide if radius is 0 so it cant crash the simulation
 	var linear_velocity: float = velocity_slider.value
 	var current_radius: float = radius_slider.value
 	var current_mass: float = max(mass_slider.value, 0.0)
@@ -125,14 +130,13 @@ func _process(delta: float) -> void:
 	string_line.add_point(pivot.position)
 	string_line.add_point(ball.position)
 
-# signals
+## signals
 
 func _on_radius_changed(new_value: float) -> void:
 	radius_label.text = "%s" % new_value
 	var new_radius: float = new_value * RADIUS_SCALE
 
 	if new_radius > 0 and radius > 0:
-		# C623a - logical operator (and)
 		var current_linear_velocity: float = velocity_slider.value * 30.0
 		_angular_velocity = current_linear_velocity / new_radius
 
@@ -148,13 +152,16 @@ func _on_mass_changed(new_value: float) -> void:
 
 func _on_velocity_changed(new_value: float) -> void:
 	velocity_label.text = "%s" % new_value
-	var linear_velocity: float = new_value * 30.0   # C628a - typed local var
+	var linear_velocity: float = new_value * 30.0
 
 	if radius > 0:
 		_angular_velocity = linear_velocity / radius
 	_update_force_label()
 
 func _on_save_file_selected(path: String) -> void:
+	## C733 - grabs whatever the sliders currently say and hands it to the
+	## base class to write out, this script doesnt care how the csv gets
+	## written, just what values go into it
 	save_state_to_csv(path, mass_slider.value, velocity_slider.value, radius_slider.value)
 
 func _on_import_file_selected(path: String) -> void:
@@ -168,9 +175,7 @@ func _on_import_file_selected(path: String) -> void:
 	_update_values_from_sliders()
 	_update_all_labels()
 
-# =============================================================================
-# TRANSPORT CONTROLS (pause / resume / speed up / slow down)
-# =============================================================================
+## TRANSPORT CONTROLS (pause / resume / speed up / slow down)
 
 func _on_button_button_up() -> void:
 	pause_simulation()
@@ -183,17 +188,16 @@ func _on_button_4_button_down() -> void:
 
 
 func _reset_sliders_to_defaults() -> void:
+	# C734 - defaults now live as named constants above (at the top of the code), instead of a
+	# plain [2, 3, 3] (before i changed it) array where you had to guess what each number meant
 	var sliders: Array = [mass_slider, velocity_slider, radius_slider]
-	# C635a - array [mass_slider, velocity_slider, radius_slider]
-	var defaults: Array = [2, 3, 3]
+	var defaults: Array = [DEFAULT_MASS, DEFAULT_VELOCITY, DEFAULT_RADIUS]
 
-	for i in range(sliders.size()):   # C632a - iteration over an array
+	for i in range(sliders.size()):
 		sliders[i].value = defaults[i]
 
 
-# =============================================================================
-# OPTIONS PANEL SHOW / HIDE ANIMATION
-# =============================================================================
+## OPTIONS PANEL SHOW / HIDE ANIMATION
 
 func _on_hide_button_up() -> void:
 	var panel_options := $layout/options
@@ -255,12 +259,9 @@ func _on_import_button_up() -> void:
 	import_dialog.popup_centered(Vector2i(600, 400))
 
 
-# =============================================================================
-# LABEL TEXT-SUBMITTED CALLBACKS
-# why: these are the only places a user can type arbitrary free text, so
-# they are the only places that need the full existence/type/range check
-# (C735a / C745a) rather than relying on the slider's built-in clamping.
-# =============================================================================
+## C713 - the mass/radius/velocity text boxes are the only place someone can
+## type literally anything, so those are the inputs that actually need
+## checking before use, sliders cant go out of range on their own
 
 func _on_mass_label_text_submitted(new_text: String) -> void:
 	mass_slider.value = try_parse_validated_float(new_text, MASS_MIN, MASS_MAX, mass_slider.value)
