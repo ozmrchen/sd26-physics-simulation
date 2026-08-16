@@ -1,13 +1,7 @@
 class_name BaseMotionSimulation
 extends Control
 
-## C751 - naming is consistent everywhere in here, funcs snake_case, private
-## vars start with _, constants ALL_CAPS, class name is CamelCase, same
-## convention as circular_motion.gd not just something specific to this file
 
-## C744 - kept all the shared stuff (validation, saving/loading, play/pause)
-## in this base class so circular_motion.gd doesn't have to repeat it, if I
-## add more simulations later they just inherit from here instead of copy pasting
 
 var _mass: float = 1.0
 var _radius: float = 100.0
@@ -22,8 +16,6 @@ const VELOCITY_MIN := -60.0
 const VELOCITY_MAX := 60.0
 
 
-## C741 - functions like get_mass/set_mass follow the normal get_/set_
-## pattern so its obvious what they do without reading the body
 func get_mass() -> float:
 	return _mass
 
@@ -50,34 +42,24 @@ func get_centripetal_force() -> float:
 
 
 func _is_valid_float_string(text: String) -> bool:
-	## C723 - existence check, an empty box counts as no input at all
 	var trimmed: String = text.strip_edges()
 	if trimmed.is_empty():
 		return false
-	## C724 - type check, has to actually parse as a number not just text
 	if not trimmed.is_valid_float():
 		return false
 	return true
 
 func _clamp_to_range(value: float, min_value: float, max_value: float) -> float:
-	## C725 - range check so something like mass = -50 cant sneak through
 	return clamp(value, min_value, max_value)
 
 func try_parse_validated_float(text: String, min_value: float, max_value: float, fallback: float) -> float:
-	## C735 - runs the existence and type checks together before anything
-	## even gets to the range check below
 	if not _is_valid_float_string(text):
 		push_warning("Invalid numeric input '%s' - keeping previous value" % text)
 		return fallback
 	return _clamp_to_range(text.to_float(), min_value, max_value)
-	## C745 - so by the time a typed value actually gets used it's already
-	## been through existence, type and range checks, all three every time
 
 
 func save_state_to_csv(path: String, mass: float, velocity: float, radius: float) -> void:
-	## C743 - mass/velocity/radius come in from whatever called this
-	## (usually straight from the sliders), get turned into strings and
-	## written out, loading is basically this in reverse
 	var file := FileAccess.open(path, FileAccess.WRITE)
 	if file == null:
 		print("Error opening file for writing: ", FileAccess.get_open_error())
@@ -88,11 +70,6 @@ func save_state_to_csv(path: String, mass: float, velocity: float, radius: float
 	print("Saved to: ", path)
 
 func load_state_from_csv(path: String) -> Dictionary:
-	## C742 - full process here: check the file exists, open + read it,
-	## check there's actually 4 columns not less, check every column parses
-	## as a float, THEN clamp each one to a range and hand back a dict
-	## - if any step fails it just returns an empty dict and whatever called
-	## this knows to bail out instead of the simulation crashing
 	if not FileAccess.file_exists(path):
 		print("File not found: ", path)
 		return {}
@@ -106,9 +83,6 @@ func load_state_from_csv(path: String) -> Dictionary:
 	var values: PackedStringArray = file.get_csv_line()
 	file.close()
 
-	## C753 - checking all 4 columns are actually there before trusting any
-	## of them, this is the completeness check on top of the per-value ones
-	## below, covers all the relevant input for this file not just one field
 	if values.size() < 4:
 		print("Save file looks malformed - expected 4 values, found %d" % values.size())
 		return {}
@@ -140,7 +114,3 @@ func slow_down(step: float = 0.1, min_speed: float = 0.1) -> void:
 	if Engine.time_scale > min_speed:
 		Engine.time_scale -= step
 
-## C752 - this file handles saving/loading, validating typed input and
-## pausing/speeding up the sim for every motion simulation that extends it,
-## so anything thats the same across every sim only has to be written and
-## explained once here, instead of five times in five different scripts
