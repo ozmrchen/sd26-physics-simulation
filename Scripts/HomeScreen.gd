@@ -87,8 +87,8 @@ func _on_start_pressed() -> void:
 func change_options(category: String) -> void:
 	print("Category changed to: ", category)
 
-func change_summary(simulation: String) -> void:
-	current_simulation = simulation
+func change_summary(simulation: String) -> void: # C732 once the user presses another type of simulation, this function
+	current_simulation = simulation				 # will change the title, description and formula of the text based on that simulation
 	if simulation not in SIMULATIONS:
 		print("Warning: no data found for id: ", simulation)
 		return

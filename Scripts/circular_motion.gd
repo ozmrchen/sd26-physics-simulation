@@ -1,26 +1,55 @@
-extends BaseMotionSimulation
+extends BaseMotionSimulation # C741 class uses UpperCamelCase "BaseMotionSimulation"
+
+## Physics Simulation C712
+## Feature 1. circular motion simulation that displays a diagram and formula.
+## this feature is desgined to help students with physics concepts such as circular motion
+## by having input boxes for values and sliders that can be used to find trends in formulas displayed.
+## this feature's data can also be saved and downloaded locally which can be sent to other students
+## that want specific values.
+## Feature 2. homescreen to browse and select wanted simulations by the teacher or student
+## A homescreen allows users to chooses specific simulations with ease.
+## A titles, description and image is provided before they press start to see if that's the type
+## of simulation the user wants before they load its so it could save time
+## Feature 3. Settings screen to customise application for user needs
+## A settings screen allows the user make the app fit their theme or style
+## by doing so helps the user engage with the app. If they want dark mode then
+## they can toggle it on or off which as when they think the app fits their style
+## it will increase it's ease of use as they are willing to look at the UI more
+
+
+## C711
+## naming conventions used:
+## snake_case for variables and functions
+## UpperCamelCase for class e.g BaseMotionSimulation
+## UI element names use lowerCamelCase e.g radiusSlider
+
+## C752
+## the data the user inputs is validated before being updated to the concurrent data
+## that means no error will arise if users input invalid data
+## the data can then be 
 
 
 
-@onready var radius_slider: HSlider = $layout/options/radiusSlider
+@onready var radius_slider: HSlider = $layout/options/radiusSlider ## C731 this is a slider UI element using lowerCamelCase "radiusSlider"
 @onready var velocity_slider: HSlider = $layout/options/velocitySlider  
 @onready var mass_slider: HSlider = $layout/options/massSlider
 
-@onready var save_dialog: FileDialog = $SaveFileDialog
-@onready var import_dialog: FileDialog = $ImportFileDialog 
-
-@onready var radius_label: LineEdit = $layout/options/radiusLabel
+@onready var save_dialog: FileDialog = $SaveFileDialog ## C751 While most of the UI elements are lowerCamelCase, i do need to change the naming scheme
+@onready var import_dialog: FileDialog = $ImportFileDialog ## for some of the Nodes such as these ones so they are also lowerCamelCase, the scenes also
+														## should be renamed as it is a tiny bit inconsistent, e.g "Global.gd" and "base_motion.gd" and "switch2.gd"
+														## other than that, everything else uses the correct naming scheme
+@onready var radius_label: LineEdit = $layout/options/radiusLabel ## C721 example of variables using snake_case "radius_label"
 @onready var velocity_label: LineEdit = $layout/options/velocityLabel
 @onready var mass_label: LineEdit = $layout/options/massLabel
 @onready var force_label: Label = $layout/options/forceLabel
-@onready var formula_label: Label = $layout/options/formulaLabel
+@onready var formula_label: Label = $layout/options/formulaLabel ## C731 this is a label UI element using lowerCamelCase "formulaLabel"
 @onready var speed_label: Label = $layout/options/speedLabel
 
 @onready var ball: Node2D = $Ball
 @onready var pivot: Node2D = $Pivot
-@onready var string_line: Line2D = $Line2D
+@onready var string_line: Line2D = $Line2D ## C721 example of variables using snake_case "string_line"
 
-const RADIUS_SCALE := 20.0
+const RADIUS_SCALE := 20.0 ## C721 example of variables using snake_case "RADIUS_SCALE"
 const DEFAULT_MASS := 2.0
 const DEFAULT_VELOCITY := 3.0
 const DEFAULT_RADIUS := 3.0
@@ -85,7 +114,8 @@ func _update_force_label() -> void:
 	formula_label.text = "F = (%.2f * (%.2f)² ) / %.2f" % [current_mass, linear_velocity, current_radius]
 	
 
-func _update_values_from_sliders() -> void:
+func _update_values_from_sliders() -> void: ## C734 change: made into a function so i wouldn't have to keep calling the code (hardcoded) every time something changes
+											## I can just call this every frame, its also ease of access as i can find this function and change stuff inside of it
 	mass = max(mass_slider.value, 0.0)
 	radius = radius_slider.value * RADIUS_SCALE
 	var linear_velocity: float = velocity_slider.value * 30.0
@@ -93,7 +123,11 @@ func _update_values_from_sliders() -> void:
 	if radius > 0:
 		_angular_velocity = linear_velocity / radius
 
-
+## C742
+## The entire process is calculating the data using the inputted data from the user on the sliders to
+## then output specific values to the user. The application does this by utlising a class for methods
+## to calculate all the valaues needed, it's then validated and checks to make sure the data is correct
+## before outputing it so the program doesn't crash.
 func _process(delta: float) -> void:
 	var current_mass: float = max(mass_slider.value, 0.0)
 	var old_angle: float = _angle
@@ -111,7 +145,7 @@ func _process(delta: float) -> void:
 	string_line.add_point(ball.position)
 
 
-func _on_radius_changed(new_value: float) -> void:
+func _on_radius_changed(new_value: float) -> void: ## C733 when the user uses the slider it changes the radius value of the simulation
 	radius_label.text = "%s" % new_value
 	var new_radius: float = new_value * RADIUS_SCALE
 
@@ -123,13 +157,13 @@ func _on_radius_changed(new_value: float) -> void:
 	_update_force_label()
 
 
-func _on_mass_changed(new_value: float) -> void:
+func _on_mass_changed(new_value: float) -> void: ## C741 function uses snake_case "_on_mass_changed"
 	mass_label.text = "%s" % new_value
 	mass = max(new_value, 0.01)
 	_update_force_label()
 
 
-func _on_velocity_changed(new_value: float) -> void:
+func _on_velocity_changed(new_value: float) -> void: ## C741 function uses snake_case "_on_velocity_changed()" 
 	velocity_label.text = "%s" % new_value
 	var linear_velocity: float = new_value * 30.0
 
@@ -161,9 +195,9 @@ func _on_button_3_button_down() -> void:
 func _on_button_4_button_down() -> void:
 	slow_down()
 
-
-func _reset_sliders_to_defaults() -> void:
-	var sliders: Array = [mass_slider, velocity_slider, radius_slider]
+## C732 when this is called it reset all the values of the sliders to thier defaults which resets the simulation to its defaults
+func _reset_sliders_to_defaults() -> void: ## C734 TODO: fix the default button as it doesnt work at the moment
+	var sliders: Array = [mass_slider, velocity_slider, radius_slider] 
 	var defaults: Array = [DEFAULT_MASS, DEFAULT_VELOCITY, DEFAULT_RADIUS]
 
 	for i in range(sliders.size()):
@@ -171,7 +205,7 @@ func _reset_sliders_to_defaults() -> void:
 
 
 
-func _on_hide_button_up() -> void:
+func _on_hide_button_up() -> void: ## C734 bug fix, typo, renamed from "_on_hide_buton_up()" to "_on_hide_button_up()"
 	var panel_options := $layout/options
 	var panel_options2 := $layout/options2
 	var mainpanel := $layout
@@ -232,11 +266,11 @@ func _on_import_button_up() -> void:
 
 
 
-func _on_mass_label_text_submitted(new_text: String) -> void:
-	mass_slider.value = try_parse_validated_float(new_text, MASS_MIN, MASS_MAX, mass_slider.value)
-
-func _on_radius_label_text_submitted(new_text: String) -> void:
-	radius_slider.value = try_parse_validated_float(new_text, RADIUS_MIN, RADIUS_MAX, radius_slider.value)
+func _on_mass_label_text_submitted(new_text: String) -> void: ## C733 when the user types in the textinput box and returns their value, it gets sent to the sliders and updates the mass of the simulation
+	mass_slider.value = try_parse_validated_float(new_text, MASS_MIN, MASS_MAX, mass_slider.value) ## C713 the mass text typed into the input box needs to be checked
+	
+func _on_radius_label_text_submitted(new_text: String) -> void: ## C733 when the user types in the textinput box and returns their value, it gets sent to the sliders and updates the radius of the simulation
+	radius_slider.value = try_parse_validated_float(new_text, RADIUS_MIN, RADIUS_MAX, radius_slider.value) ## C713 the radius text typed into the input box needs to be checked
 
 func _on_velocity_label_text_submitted(new_text: String) -> void:
 	velocity_slider.value = try_parse_validated_float(new_text, VELOCITY_MIN, VELOCITY_MAX, velocity_slider.value)

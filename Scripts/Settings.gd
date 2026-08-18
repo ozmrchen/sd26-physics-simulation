@@ -32,7 +32,7 @@ func _on_settings_2_button_up() -> void:
 func _on_control_2_button_up() -> void:
 	Global.show_formula = not Global.show_formula
 
-func _on_control_4_button_up() -> void:
+func _on_control_4_button_up() -> void: # C732 when this button is pressed the user toggles on/off dark mode
 	if cooldown == false:
 		cooldown = true
 		Global.dark_mode = not Global.dark_mode

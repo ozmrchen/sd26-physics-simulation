@@ -41,23 +41,29 @@ func get_centripetal_force() -> float:
 	return (_mass * _velocity * _velocity) / _radius
 
 
-func _is_valid_float_string(text: String) -> bool:
+func _is_valid_float_string(text: String) -> bool: 
 	var trimmed: String = text.strip_edges()
-	if trimmed.is_empty():
+	if trimmed.is_empty(): ## C723 checks if there is anything in the input (existence check)
 		return false
-	if not trimmed.is_valid_float():
+	if not trimmed.is_valid_float(): ## C724 checks if the value of the input is a float (from the input boxes)
 		return false
 	return true
 
-func _clamp_to_range(value: float, min_value: float, max_value: float) -> float:
+func _clamp_to_range(value: float, min_value: float, max_value: float) -> float: ## C725 checks the range of the input
 	return clamp(value, min_value, max_value)
 
-func try_parse_validated_float(text: String, min_value: float, max_value: float, fallback: float) -> float:
-	if not _is_valid_float_string(text):
+func try_parse_validated_float(text: String, min_value: float, max_value: float, fallback: float) -> float: 
+	if not _is_valid_float_string(text): ## C735 checks if value is empty (existence check) then checks if its a float
 		push_warning("Invalid numeric input '%s' - keeping previous value" % text)
 		return fallback
 	return _clamp_to_range(text.to_float(), min_value, max_value)
+	## C45 by the end of the function it checks if the value is empty, then checks if its a float then it checks its range and clamps it so its not over or under 
 
+
+## C743
+## the data is grabbed from the user that inputs it and is then saved onto the computer locally
+## which can then be transfered to other students or can be loaded back into the simulation
+## and will change all of the data in the simulation to the data loaded by the csv file
 
 func save_state_to_csv(path: String, mass: float, velocity: float, radius: float) -> void:
 	var file := FileAccess.open(path, FileAccess.WRITE)
@@ -68,6 +74,12 @@ func save_state_to_csv(path: String, mass: float, velocity: float, radius: float
 	file.store_csv_line([str(mass), str(velocity), str(radius), str(Engine.time_scale)])
 	file.close()
 	print("Saved to: ", path)
+
+## C744
+## This data source is CSV used to save/uplaod user inputted data
+## the reason why CSV was used was because it's human readable and easy to implement into godot
+## and data can be respresented in rows and collums which can be denoted as a dictionary
+## and cal also be sperated by commas which can be easily stripped when being read or add when saved
 
 func load_state_from_csv(path: String) -> Dictionary:
 	if not FileAccess.file_exists(path):
@@ -113,4 +125,3 @@ func speed_up(step: float = 0.1, max_speed: float = 3.0) -> void:
 func slow_down(step: float = 0.1, min_speed: float = 0.1) -> void:
 	if Engine.time_scale > min_speed:
 		Engine.time_scale -= step
-
